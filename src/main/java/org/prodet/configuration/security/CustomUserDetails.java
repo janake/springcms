@@ -8,9 +8,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails extends User implements UserDetails {
-
-	private static final long serialVersionUID = 2990666639680934472L;
 	
+	private static final long serialVersionUID = 4299811120834241073L;
+
 	private User user;
 	
 	public CustomUserDetails(User user) {
@@ -19,7 +19,7 @@ public class CustomUserDetails extends User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return  AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
+		return AuthorityUtils.createAuthorityList(user.getRolesName());
 	}
 
 	@Override

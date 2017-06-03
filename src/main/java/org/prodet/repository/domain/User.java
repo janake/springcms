@@ -144,18 +144,33 @@ public class User {
 	public List<Role> getRoles() {
 		return roles;
 	}
-
+	
+	public String[] getRolesName() {
+		String[] roleNames = getNamesFromRoles();
+		return roleNames;
+	}
+	
 	public void setRoles(ArrayList<Role> roles) {
 		this.roles = roles;
 	}
 
+	private String[] getNamesFromRoles() {
+		
+		String[] roleNames = new String[roles.size()];
+		int i = 0;
+
+		for (Role role : roles) {
+			roleNames[i++] = role.getRoleName();
+		}
+		
+		return roleNames;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", passwd=" + passwd + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", createdDate=" + createdDate + ", status=" + status
 				+ ", roles=" + roles + "]";
 	}
-	
-	
-	
+		
 }
