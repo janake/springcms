@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
+import org.prodet.service.dao.UserView;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -74,6 +75,10 @@ public class User {
 		this.createdDate = getCreatedDate();
 		this.status = status;
 		this.roles = roles;
+	}
+
+	public User(UserView createdBy) {
+		this.id = createdBy.getId();
 	}
 
 	public long getId() {

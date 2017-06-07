@@ -2,8 +2,8 @@ package org.prodet.web;
 
 import java.util.ArrayList;
 
-import org.prodet.service.NodeService;
-import org.prodet.service.DAO.NodeDao;
+import org.prodet.service.NodeServiceInterface;
+import org.prodet.service.dao.NodeView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 		
 	@Autowired
-	NodeService nodeService;
+	NodeServiceInterface nodeService;
 
 	@RequestMapping(
 		value = "/",
@@ -22,7 +22,7 @@ public class IndexController {
 	)
 	public String getIndex(Model model) {
 		
-		ArrayList<NodeDao> nodes = nodeService.getAllNodes();
+		ArrayList<NodeView> nodes = nodeService.getAllNodes();
 
 		model.addAttribute("nodes", nodes);
 		

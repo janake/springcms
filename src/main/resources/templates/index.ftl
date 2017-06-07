@@ -4,6 +4,8 @@
 <head>
 <title>SpringCMS</title>
 <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
+<script type="text/javascript" src="/webjars/ckeditor/4.6.2/standard/ckeditor.js"></script>
+<script type="text/javascript" src="/js/createNewNode.js" defer></script>
 </head>
 <body>
 
@@ -19,7 +21,9 @@
 		<#include "/fragments/nodelistmenu.ftl">  
 	  </div>
 	  <div class="col-sm-9">
-
+	  	<#if fragment??>
+			<#include "/fragments/"+ fragment>
+		</#if>
 	  </div>
 	</div>
 

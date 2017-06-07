@@ -1,5 +1,6 @@
 <ul class="nav nav-pills nav-stacked">
 	<li class="active"><a href="/node/new">Create new node</a></li>
+	<li class="active"><a href="/entity/new">Create new article</a></li>
 	<#if nodes??>
 		<#list nodes as node>
 			<li>

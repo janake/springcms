@@ -1,12 +1,15 @@
 package org.prodet.web;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
 
-import org.prodet.service.NodeService;
-import org.prodet.service.DAO.NodeDao;
-import org.prodet.service.DAO.NodeDaos;
+import org.prodet.configuration.EntityNotFoundException;
+import org.prodet.service.NodeServiceInterface;
+import org.prodet.service.UserService;
+import org.prodet.service.dao.NodeView;
+import org.prodet.service.dao.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -21,78 +24,92 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value="/node")
 public class NodeController {
 	
-	@Autowired
-	NodeService nodeService;
+	private ArrayList<NodeView> nodes = new ArrayList<>();
 	
 	@Autowired
-	NodeDaos nodeDAOs;
+	NodeServiceInterface nodeService;
+	
+	@Autowired
+	UserService userService;
 	
 	@Bean
 	@ModelAttribute("node")
-	public NodeDao nodeFactory() {
-		return NodeDao.getNode();
+	public NodeView nodeFactory() {
+		return NodeView.getNode();
 	}
 
 	@RequestMapping(value="/new")
 	public String createNewNode(Model model) {
 		addNodesToModel(model);
-		return "newNode";		
+		model.addAttribute("fragment", "newNode.ftl");
+		return "index";		
 	}
 	
 	
 	@RequestMapping(value="/createNewNode", method=RequestMethod.POST)
+<<<<<<< 9d551ea8ca5930a9dbf780b2da6add13db08f894
 	public String saveNewNode(@Valid @ModelAttribute("node") NodeDao node, Model model, BindingResult errors) {
+=======
+	public String saveNewNode(@Valid @ModelAttribute("node") NodeView node, 
+			Model model, BindingResult errors, Principal principal) {
+>>>>>>> new entitytype
 		
 		Long nodeId = 0l;
 		
 		if( errors.hasErrors() ) {
-	        return "newNode";
+			model.addAttribute("fragment", "newNode.ftl");
+			return "index";
 	    }
 		
-		nodeId = nodeService.save(node);			
+		String userName = principal.getName();
+		UserView user = userService.findByuserNameOrEmail(userName);
+		node.setCreatedBy(user);
+		nodeId = nodeService.save(node);
+		
 		return "redirect:/node/" + nodeId;
 	}
 	
 	@RequestMapping(value="/{id}/save",method=RequestMethod.POST)
-		public String editNode(@Valid NodeDao node, BindingResult errors, Model model) {
+		public String editNode(@Valid NodeView node, 
+				BindingResult errors, Model model) {
 		
 			addNodesToModel(model);				
 			if( errors.hasErrors() ) {
-		        return "editNode";
+				model.addAttribute("fragment", "editNode.ftl");
+				return "index";
 		    }
-
+			
 			nodeService.update(node);
 			return "redirect:/node/" + node.getId();
 		}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String getNode(@PathVariable Long id, Model model) {
-		try {			
-			addCurrentNodeToModel(id, model);
-			addNodesToModel(model);			
-			return "node";
-		} catch (Exception e) {
-			throw e;
-		}
+	public String getNode(@PathVariable Long id, Model model) throws EntityNotFoundException {
+		addCurrentNodeToModel(id, model);
+		addNodesToModel(model);
+		model.addAttribute("fragment", "node.ftl");
+		return "index";
 	}
 
 	
 	@RequestMapping(value="/{id}/edit", method=RequestMethod.GET)
-	public String setNode(@PathVariable Long id, Model model) {
+	public String setNode(@PathVariable Long id, Model model) throws EntityNotFoundException {
 		
 		addCurrentNodeToModel(id, model);
 		addNodesToModel(model);
 		
-		return "editNode";
+		model.addAttribute("fragment", "editNode.ftl");
+		return "index";
+		
 	}
 
-	private void addCurrentNodeToModel(Long id, Model model) {
-		NodeDao node = nodeService.getNode(id);
+	private void addCurrentNodeToModel(Long id, Model model) throws EntityNotFoundException {
+		NodeView node = nodeService.getNode(id);
 		model.addAttribute("node", node);
 	}
 	
 	private void addNodesToModel(Model model) {
-		ArrayList<NodeDao> nodes = nodeDAOs.getAllNodes();
+		ArrayList<NodeView> nodes = nodeService.getAllNodes();
 		model.addAttribute("nodes", nodes);
 	}
 

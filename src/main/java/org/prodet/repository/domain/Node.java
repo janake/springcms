@@ -1,14 +1,15 @@
 package org.prodet.repository.domain;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+
+import org.prodet.service.dao.NodeView;
+import org.prodet.service.dao.UserView;
 
 @Entity
 public class Node {
@@ -22,7 +23,8 @@ public class Node {
 	@Lob
 	private String body;
 	
-	private Long user;
+	@OneToOne
+	private User createdBy;
 	
 	private LocalDateTime lastModificationDate;
 
@@ -32,14 +34,14 @@ public class Node {
 
 	}
 
-	public Node(Long id, String title, String body, Long user, LocalDateTime createdDate,
+	public Node(Long id, String title, String body, User createdBy,
 			LocalDateTime lastModificationDate) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.body = body;
-		this.user = user;
-		this.createdDate = createdDate;
+		this.createdBy = createdBy;
+		setCreatedDate();
 		this.lastModificationDate = lastModificationDate;
 	}
 
@@ -67,19 +69,19 @@ public class Node {
 		this.body = body;
 	}
 
-	public Long getUser() {
-		return user;
+	public User getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setUser(Long user) {
-		this.user = user;
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 
 	public LocalDateTime getCreatedDate() {
 		return this.createdDate;
 	}
 
-	public void setCreatedDate(LocalDateTime createdDate) {
+	public void setCreatedDate() {
 		this.createdDate = LocalDateTime.now();
 	}
 

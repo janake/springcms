@@ -5,15 +5,17 @@ import java.util.Iterator;
 
 import javax.transaction.Transactional;
 
-import org.prodet.repository.repository.NodeRepositoryInterface;
 import org.prodet.configuration.EntityNotFoundException;
 import org.prodet.repository.domain.Node;
-import org.prodet.service.DAO.NodeDao;
+import org.prodet.repository.domain.User;
+import org.prodet.repository.repository.NodeRepositoryInterface;
+import org.prodet.service.dao.NodeView;
+import org.prodet.service.dao.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NodeService {
+public class NodeService implements NodeServiceInterface {
 	
 	@Autowired
 	private NodeRepositoryInterface nodeRepository;
@@ -21,16 +23,20 @@ public class NodeService {
 	public NodeService() {
 	}
 
-	public Long save(NodeDao nodeFromController) {
+	@Override
+	public Long save(NodeView nodeFromController) {
 		Node node = new Node();
-		node.setTitle(nodeFromController.getTitle());
 		node.setBody(nodeFromController.getBody());
+		node.setTitle(nodeFromController.getTitle());
+		User user = new User(nodeFromController.getCreatedBy());
+		node.setCreatedBy(user);
 		Node response = nodeRepository.save(node);
 		return response.getId();		
 	}
 
+	@Override
 	@Transactional
-	public Long update(NodeDao nodeDao) {
+	public Long update(NodeView nodeDao) {
 		Node node = nodeRepository.findOne(nodeDao.getId());
 		
 		node.setBody(nodeDao.getBody());
@@ -41,28 +47,36 @@ public class NodeService {
 		return nodeDao.getId();
 	}
 	
-	public NodeDao getNode(Long id) {
-		NodeDao node = new NodeDao();
+	@Override
+	public NodeView getNode(Long id) throws EntityNotFoundException {
+		NodeView node = new NodeView();
 		try {
 			Node response = nodeRepository.findOne(id);
 			String title = response.getTitle();
 			String body = response.getBody();
 			Long nodeId = response.getId();
+<<<<<<< 9d551ea8ca5930a9dbf780b2da6add13db08f894
 			node = new NodeDao(nodeId, title, body);		
+=======
+			User createdBy = response.getCreatedBy();
+			UserView userView = new UserView(createdBy);
+			node = new NodeView(nodeId, title, body, userView);
+>>>>>>> new entitytype
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);
 		}
 		return node;
 	}
 
-	public ArrayList<NodeDao> getAllNodes() {
+	@Override
+	public ArrayList<NodeView> getAllNodes() {
 		Iterable<Node> nodes = nodeRepository.findAll();
-		 ArrayList<NodeDao> nodeList = nodeToNodeDAOs(nodes);
+		 ArrayList<NodeView> nodeList = nodeToNodeDAOs(nodes);
 		return nodeList;
 	}
 
-	private ArrayList<NodeDao> nodeToNodeDAOs(Iterable<Node> nodes) {
-		ArrayList<NodeDao> nodeList = new ArrayList<NodeDao>();
+	private ArrayList<NodeView> nodeToNodeDAOs(Iterable<Node> nodes) {
+		ArrayList<NodeView> nodeList = new ArrayList<NodeView>();
 		Iterator<Node> nodeIterator = nodes.iterator();
 		
 		while(nodeIterator.hasNext()) {
@@ -73,13 +87,15 @@ public class NodeService {
 		return nodeList;
 	}
 	
-	private NodeDao nodeToNodeDAO(Node node) {
+	private NodeView nodeToNodeDAO(Node node) {
 		
 		Long nid = node.getId();
 		String title = node.getTitle();
 		String body = node.getBody();
+		User user = node.getCreatedBy();
+		UserView createdBy = new UserView(user);	
 		
-		return new NodeDao(nid, title, body);
+		return new NodeView(nid, title, body, createdBy);
 	}
 	
 }

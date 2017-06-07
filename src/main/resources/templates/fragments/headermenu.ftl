@@ -8,6 +8,7 @@
       <li class="active"><a href="/">Home</a></li>
          <@security.authorize access="hasRole('ROLE_ADMIN')">
       		<li><a href="/admin/config">Site administration</a></li>
+      		<li><a href="/newcontenttype">Create new contenttype</a></li>
 		 </@security.authorize>      
     	 <@security.authorize access="isAuthenticated()">
      	 	<li><a href="/logout">Logout</a></li>
