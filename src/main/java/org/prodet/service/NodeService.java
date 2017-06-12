@@ -55,6 +55,7 @@ public class NodeService implements NodeServiceInterface {
 			String title = response.getTitle();
 			String body = response.getBody();
 			Long nodeId = response.getId();
+<<<<<<< 5e639b71e57ad4bdfa3aa33eaf2ef4f2f998ecb0
 <<<<<<< 9d551ea8ca5930a9dbf780b2da6add13db08f894
 			node = new NodeDao(nodeId, title, body);		
 =======
@@ -62,6 +63,15 @@ public class NodeService implements NodeServiceInterface {
 			UserView userView = new UserView(createdBy);
 			node = new NodeView(nodeId, title, body, userView);
 >>>>>>> new entitytype
+=======
+<<<<<<< c353e054572a5da1eb131867c1189ed5b88f3eee
+			User createdBy = response.getCreatedBy();
+			UserView userView = new UserView(createdBy);
+			node = new NodeView(nodeId, title, body, userView);
+=======
+			node = new NodeDao(nodeId, title, body);		
+>>>>>>> vmi javitas
+>>>>>>> vmi javitas
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);
 		}
