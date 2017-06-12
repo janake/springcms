@@ -47,12 +47,21 @@ public class NodeController {
 	
 	
 	@RequestMapping(value="/createNewNode", method=RequestMethod.POST)
+<<<<<<< 8689e058ab6e38f0af7ef48f1191b5b971ab737f
 <<<<<<< 9d551ea8ca5930a9dbf780b2da6add13db08f894
 	public String saveNewNode(@Valid @ModelAttribute("node") NodeDao node, Model model, BindingResult errors) {
 =======
 	public String saveNewNode(@Valid @ModelAttribute("node") NodeView node, 
 			Model model, BindingResult errors, Principal principal) {
 >>>>>>> new entitytype
+=======
+<<<<<<< 044969d9421f0bfec74ec8bd4824435da0c3a6d3
+	public String saveNewNode(@Valid @ModelAttribute("node") NodeView node, 
+			Model model, BindingResult errors, Principal principal) {
+=======
+	public String saveNewNode(@Valid @ModelAttribute("node") NodeDao node, Model model, BindingResult errors) {
+>>>>>>> add model to nodecontroller
+>>>>>>> add model to nodecontroller
 		
 		Long nodeId = 0l;
 		
