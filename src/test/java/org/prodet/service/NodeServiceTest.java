@@ -1,6 +1,16 @@
 package org.prodet.service;
 
+<<<<<<< b53bac087c1d730a00ff513c525d4d431328523e
 <<<<<<< 5e639b71e57ad4bdfa3aa33eaf2ef4f2f998ecb0
+=======
+<<<<<<< 436172b0d05d042895cad0d0c8a1f8095c771b25
+=======
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+@RunWith(MockitoJUnitRunner.class)
+>>>>>>> test changes
+>>>>>>> test changes
 public class NodeServiceTest {
 	
 =======
