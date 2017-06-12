@@ -8,9 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
-import org.prodet.service.dao.NodeView;
-import org.prodet.service.dao.UserView;
-
 @Entity
 public class Node {
 	
