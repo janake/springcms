@@ -48,7 +48,7 @@ public class NodeService {
 			String title = response.getTitle();
 			String body = response.getBody();
 			Long nodeId = response.getId();
-			node = new NodeDao(nodeId, title, body);			
+			node = new NodeDao(nodeId, title, body);		
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);
 		}
