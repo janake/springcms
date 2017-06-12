@@ -1,6 +1,10 @@
+<<<<<<< 46c30f4bdb14d4c45919155f8dec3e6775ae666b
 target
 <<<<<<< 9d551ea8ca5930a9dbf780b2da6add13db08f894
 target/*
 =======
+=======
+/target
+>>>>>>> gitignore++
 
 >>>>>>> new entitytype
