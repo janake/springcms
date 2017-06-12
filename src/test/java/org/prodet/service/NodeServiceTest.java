@@ -1,5 +1,6 @@
 package org.prodet.service;
 
+<<<<<<< 96055ac3c973aa051a0faab8369a630b4074d0f1
 <<<<<<< b53bac087c1d730a00ff513c525d4d431328523e
 <<<<<<< 5e639b71e57ad4bdfa3aa33eaf2ef4f2f998ecb0
 =======
@@ -11,6 +12,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 >>>>>>> test changes
 >>>>>>> test changes
+=======
+>>>>>>> test változások
 public class NodeServiceTest {
 	
 =======
