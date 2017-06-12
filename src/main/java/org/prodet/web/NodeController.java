@@ -41,7 +41,7 @@ public class NodeController {
 	
 	
 	@RequestMapping(value="/createNewNode", method=RequestMethod.POST)
-	public String saveNewNode(@Valid @ModelAttribute("node") NodeDao node, BindingResult errors) {
+	public String saveNewNode(@Valid @ModelAttribute("node") NodeDao node, Model model, BindingResult errors) {
 		
 		Long nodeId = 0l;
 		
