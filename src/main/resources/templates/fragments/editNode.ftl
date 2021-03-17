@@ -7,6 +7,16 @@
 	<div class="well">
 		<@spring.formTextarea "node.body"/>
 	</div>
+	<script>
+        ClassicEditor
+            .create( document.querySelector( '#body' ) )
+            .then( editor => {
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
 	<div class="well">
 		<button class="btn-success" type="submit">Save</button>
 	</div>

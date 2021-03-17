@@ -4,7 +4,7 @@
 <head>
 <title>SpringCMS</title>
 <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
-<script type="text/javascript" src="/webjars/ckeditor/4.6.2/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/26.0.0/classic/ckeditor.js"></script>
 <script type="text/javascript" src="/js/createNewNode.js" defer></script>
 </head>
 <body>
