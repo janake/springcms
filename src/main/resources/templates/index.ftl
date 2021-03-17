@@ -1,5 +1,5 @@
 <#import "spring.ftl" as spring />
-<#assign security=JspTaglibs["/META-INF/security.tld"] />
+<#assign security=JspTaglibs["/META-INF/security.tld"]/>
 <html>
 <head>
 <title>SpringCMS</title>
