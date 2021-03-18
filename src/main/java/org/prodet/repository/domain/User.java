@@ -10,9 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.prodet.service.dao.UserView;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

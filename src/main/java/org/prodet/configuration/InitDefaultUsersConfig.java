@@ -1,6 +1,7 @@
 package org.prodet.configuration;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -24,18 +25,25 @@ public class InitDefaultUsersConfig {
 		roleRepository.save(new Role(1l, "admin"));
 		roleRepository.save(new Role(2l, "user"));
 		
-		Role adminRole = roleRepository.findOne(1l);
-		Role userRole = roleRepository.findOne(2l);
-		adminRoles.add(adminRole);
-		adminRoles.add(userRole);
-		janakeRoles.add(userRole);
-		
+		Optional<Role> adminRole = roleRepository.findById(1l);
+		Optional<Role> userRole = roleRepository.findById(2l);
+
+		if (adminRole.isPresent()) {
+			adminRoles.add(adminRole.get());
+		}
+		if (userRole.isPresent()) {
+			adminRoles.add(userRole.get());
+			janakeRoles.add(userRole.get());
+		}
+
 		User admin = new User("admin", "admin@example.com", 
 				"pwd", "", "", true, adminRoles);	
 		userRepository.save(admin);
-		
-		janakeRoles.add(userRole);
-		userRole = roleRepository.findOne(2l);
+
+		if (userRole.isPresent()) {
+			janakeRoles.add(userRole.get());
+		}
+
 		User janake = new User("janake", "janak.endre@gmail.com", 
 				"pwd", "", "", true, janakeRoles);
 		

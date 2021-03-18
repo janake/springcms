@@ -21,11 +21,8 @@ public class IndexController {
 		method = RequestMethod.GET
 	)
 	public String getIndex(Model model) {
-		
 		ArrayList<NodeView> nodes = nodeService.getAllNodes();
-
 		model.addAttribute("nodes", nodes);
-		
 		return "index";
 	}
 	

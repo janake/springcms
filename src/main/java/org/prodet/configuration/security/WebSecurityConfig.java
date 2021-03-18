@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/node/*/edit", "/admin", "/admin/**", "/node/new").authenticated()
 //			.antMatchers("/secure/**").access("hasRole('ROLE_ADMIN')").
-			.anyRequest().permitAll() 
+			.anyRequest().permitAll()
 		.and()
 			.formLogin()
 			.loginPage("/login")

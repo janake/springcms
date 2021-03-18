@@ -2,6 +2,7 @@ package org.prodet.service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -37,13 +38,14 @@ public class NodeService implements NodeServiceInterface {
 	@Override
 	@Transactional
 	public Long update(NodeView nodeDao) {
-		Node node = nodeRepository.findOne(nodeDao.getId());
-		
-		node.setBody(nodeDao.getBody());
-		node.setTitle(nodeDao.getTitle());
-		
-		nodeRepository.save(node);
-		
+		Optional<Node> node = nodeRepository.findById(nodeDao.getId());
+
+		if (node.isPresent()) {
+			node.get().setBody(nodeDao.getBody());
+			node.get().setTitle(nodeDao.getTitle());
+			nodeRepository.save(node.get());
+		}
+
 		return nodeDao.getId();
 	}
 	
@@ -51,13 +53,15 @@ public class NodeService implements NodeServiceInterface {
 	public NodeView getNode(Long id) throws EntityNotFoundException {
 		NodeView node = new NodeView();
 		try {
-			Node response = nodeRepository.findOne(id);
-			String title = response.getTitle();
-			String body = response.getBody();
-			Long nodeId = response.getId();
-			User createdBy = response.getCreatedBy();
-			UserView userView = new UserView(createdBy);
-			node = new NodeView(nodeId, title, body, userView);
+			Optional<Node> response = nodeRepository.findById(id);
+			if (response.isPresent()) {
+				String title = response.get().getTitle();
+				String body = response.get().getBody();
+				Long nodeId = response.get().getId();
+				User createdBy = response.get().getCreatedBy();
+				UserView userView = new UserView(createdBy);
+				node = new NodeView(nodeId, title, body, userView);
+			}
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);
 		}
