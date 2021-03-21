@@ -2,11 +2,7 @@ package org.prodet.repository.domain;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Node {
@@ -16,6 +12,10 @@ public class Node {
 	private Long id;
 	
 	private String title;
+
+	@OneToOne
+	@JoinColumn(name = "Type", referencedColumnName = "id")
+	private Type type;
 	
 	@Lob
 	private String body;
@@ -32,7 +32,7 @@ public class Node {
 	}
 
 	public Node(Long id, String title, String body, User createdBy,
-			LocalDateTime lastModificationDate) {
+			LocalDateTime lastModificationDate, Type type) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -40,6 +40,7 @@ public class Node {
 		this.createdBy = createdBy;
 		setCreatedDate();
 		this.lastModificationDate = lastModificationDate;
+		this.type = type;
 	}
 
 	public Long getId() {
@@ -64,6 +65,14 @@ public class Node {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	public User getCreatedBy() {

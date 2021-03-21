@@ -1,13 +1,15 @@
 package org.prodet.service;
 
-import java.util.ArrayList;
-
 import org.prodet.configuration.EntityNotFoundException;
+import org.prodet.repository.domain.Node;
 import org.prodet.service.dao.NodeView;
+import org.prodet.service.dao.TypeView;
+
+import java.util.ArrayList;
 
 public interface NodeServiceInterface {
 
-	Long save(NodeView nodeFromController);
+	Long save(Node nodeFromController);
 
 	Long update(NodeView nodeDao);
 
@@ -15,4 +17,5 @@ public interface NodeServiceInterface {
 
 	ArrayList<NodeView> getAllNodes();
 
+    ArrayList<NodeView> getAllNodesByType(TypeView type);
 }

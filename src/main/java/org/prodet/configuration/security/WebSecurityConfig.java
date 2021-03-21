@@ -16,20 +16,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
+		//TODO:for H2 console view, comment out in case production
+		http.headers().frameOptions().sameOrigin();
+
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/node/*/edit", "/admin", "/admin/**", "/node/new").authenticated()
+			.antMatchers("/node/*/edit", "/admin", "/admin/**", "/node/new", "/node/*/new").authenticated()
 //			.antMatchers("/secure/**").access("hasRole('ROLE_ADMIN')").
-			.anyRequest().permitAll()
+			.anyRequest()
+			.permitAll()
 		.and()
 			.formLogin()
-			.loginPage("/login")
-			.loginProcessingUrl("/security_check")
+			.loginPage("/login.html")
+			.failureUrl("/login-error.html")
 			.defaultSuccessUrl("/")
 		.and()
 			.logout()
-			.logoutUrl("/logout").permitAll();
+			.logoutUrl("/index.html")
+			.permitAll();
 
 	}
 

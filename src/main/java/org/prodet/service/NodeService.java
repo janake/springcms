@@ -8,29 +8,40 @@ import javax.transaction.Transactional;
 
 import org.prodet.configuration.EntityNotFoundException;
 import org.prodet.repository.domain.Node;
+import org.prodet.repository.domain.Type;
 import org.prodet.repository.domain.User;
 import org.prodet.repository.repository.NodeRepositoryInterface;
+import org.prodet.repository.repository.UserRepositoryInterface;
 import org.prodet.service.dao.NodeView;
+import org.prodet.service.dao.TypeView;
 import org.prodet.service.dao.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NodeService implements NodeServiceInterface {
-	
+
+	@Autowired
+	private UserRepositoryInterface userRepository;
+
 	@Autowired
 	private NodeRepositoryInterface nodeRepository;
-	
+
+	@Autowired
+	private TypeService typeService;
+
 	public NodeService() {
 	}
 
 	@Override
-	public Long save(NodeView nodeFromController) {
+	public Long save(Node nodeFromController) {
 		Node node = new Node();
 		node.setBody(nodeFromController.getBody());
 		node.setTitle(nodeFromController.getTitle());
-		User user = new User(nodeFromController.getCreatedBy());
+		User user = userRepository.findByuserNameOrEmail(nodeFromController.getCreatedBy().getEmail());
 		node.setCreatedBy(user);
+		node.setType(nodeFromController.getType());
+		node.setCreatedDate();
 		Node response = nodeRepository.save(node);
 		return response.getId();		
 	}
@@ -55,12 +66,7 @@ public class NodeService implements NodeServiceInterface {
 		try {
 			Optional<Node> response = nodeRepository.findById(id);
 			if (response.isPresent()) {
-				String title = response.get().getTitle();
-				String body = response.get().getBody();
-				Long nodeId = response.get().getId();
-				User createdBy = response.get().getCreatedBy();
-				UserView userView = new UserView(createdBy);
-				node = new NodeView(nodeId, title, body, userView);
+				node = new NodeView(response.get());
 			}
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);
@@ -72,6 +78,13 @@ public class NodeService implements NodeServiceInterface {
 	public ArrayList<NodeView> getAllNodes() {
 		Iterable<Node> nodes = nodeRepository.findAll();
 		 ArrayList<NodeView> nodeList = nodeToNodeDAOs(nodes);
+		return nodeList;
+	}
+
+	@Override
+	public ArrayList<NodeView> getAllNodesByType(TypeView typeView) {
+		Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeView));
+		ArrayList<NodeView> nodeList = nodeToNodeDAOs(nodes);
 		return nodeList;
 	}
 
@@ -88,14 +101,7 @@ public class NodeService implements NodeServiceInterface {
 	}
 	
 	private NodeView nodeToNodeDAO(Node node) {
-		
-		Long nid = node.getId();
-		String title = node.getTitle();
-		String body = node.getBody();
-		User user = node.getCreatedBy();
-		UserView createdBy = new UserView(user);	
-		
-		return new NodeView(nid, title, body, createdBy);
+		return new NodeView(node);
 	}
 	
 }

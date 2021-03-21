@@ -3,6 +3,7 @@ package org.prodet.web;
 import java.util.ArrayList;
 
 import org.prodet.service.NodeServiceInterface;
+import org.prodet.service.TypeService;
 import org.prodet.service.dao.NodeView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 		
 	@Autowired
-	NodeServiceInterface nodeService;
+	private NodeServiceInterface nodeService;
+
+	@Autowired
+	private TypeService typeService;
 
 	@RequestMapping(
 		value = "/",
@@ -23,6 +27,7 @@ public class IndexController {
 	public String getIndex(Model model) {
 		ArrayList<NodeView> nodes = nodeService.getAllNodes();
 		model.addAttribute("nodes", nodes);
+		model.addAttribute("types", typeService.getAllType());
 		return "index";
 	}
 	

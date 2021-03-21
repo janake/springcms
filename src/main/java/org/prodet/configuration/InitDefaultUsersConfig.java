@@ -1,30 +1,42 @@
 package org.prodet.configuration;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
 import org.prodet.repository.domain.Role;
+import org.prodet.repository.domain.Type;
 import org.prodet.repository.domain.User;
 import org.prodet.repository.repository.RoleRepositoryInterface;
+import org.prodet.repository.repository.TypeRepositoryInterface;
 import org.prodet.repository.repository.UserRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
 
 @Configuration
 public class InitDefaultUsersConfig {
+
+	@Value("#{${base.types}}")
+	private Map<String, String> types;
 	
 	@Transactional
 	@Autowired
-	public void init(UserRepositoryInterface userRepository, RoleRepositoryInterface roleRepository) {
+	public void init(UserRepositoryInterface userRepository, RoleRepositoryInterface roleRepository,
+					 TypeRepositoryInterface typeRepository) {
 		
 		ArrayList<Role> janakeRoles = new ArrayList<Role>();
 		ArrayList<Role> adminRoles = new ArrayList<Role>();
 
-		roleRepository.save(new Role(1l, "admin"));
-		roleRepository.save(new Role(2l, "user"));
-		
+		roleRepository.save(new Role(1L, "admin"));
+		roleRepository.save(new Role(2L, "user"));
+
+		typeRepository.save(new Type("Home", "Node"));
+		typeRepository.save(new Type("Java", "Node"));
+		typeRepository.save(new Type("Docker", "Node"));
+		typeRepository.save(new Type("Contact", "Node"));
+
 		Optional<Role> adminRole = roleRepository.findById(1l);
 		Optional<Role> userRole = roleRepository.findById(2l);
 
