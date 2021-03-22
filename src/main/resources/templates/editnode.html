@@ -7,30 +7,19 @@
 </nav>
 <div class="container">
     <div class="row">
-        <div th:replace="fragments/layouts :: menu">
-        </div>
+        <div th:replace="fragments/layouts :: menu"></div>
         <div class="col-md-11 col-lg-9 col-xl-8 form-group">
-            <form action="#" th:action="@{/node/{id}/save(id=${node.id})}" th:object="${node}" method="post">
+            <form th:action="@{/node/{id}/save(id=${node.id})}" th:object="${node}" method="post">
                 <input class="nodetitle" type="text" th:field="*{title}" />
-                <textarea class="editor" th:field="*{body}"></textarea>
+                <textarea id="editor" th:field="*{body}"></textarea>
                 <input type="submit" />
             </form>
         </div>
-        </div>
     </div>
     <hr/>
-    <footer th:fragment = "footer">
-        <div class="row">
-            <div class="col-md-6">
-                <p>Copyright &copy; 2019 Tutorial Republic</p>
-            </div>
-            <div class="col-md-6 text-md-right">
-                <a href="#" class="text-dark">Terms of Use</a>
-                <span class="text-muted mx-2">|</span>
-                <a href="#" class="text-dark">Privacy Policy</a>
-            </div>
-        </div>
-    </footer>
+    <footer th:replace="fragments/layouts :: footer"></footer>
+    <script th:replace="fragments/layouts :: ckeditor"></script>
+    <script th:replace="fragments/layouts :: wysiwyg"></script>
 </div>
 </body>
 </html>

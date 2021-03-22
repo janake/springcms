@@ -11,12 +11,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
     <body>
-    <table>
-        <tr th:each="var : ${#vars}">
-            <td th:text="${var.key}"></td>
-            <td th:text="${var.value}"></td>
-        </tr>
-    </table>
         <nav th:fragment = "navbar" class="navbar navbar-expand-md navbar-dark bg-success mb-3">
             <div class="container-fluid">
                 <a href="#" class="navbar-brand mr-3">prodet.org</a>
@@ -55,15 +49,13 @@
             </li>
         </ul>
         <div th:fragment = "main-content" class="col-md-11 col-lg-9 col-xl-8">
-            <h2>Main content</h2>
-            <p>This is the content</p>
         </div>
         <div th:fragment = "newnode" class="col-md-11 col-lg-9 col-xl-8 form-group">
             <h2>Main content</h2>
             <p>This is the content</p>
             <form action="#" th:action="@{/node/{type}/createNewNode(type = ${typeView.typeName})}" th:object="${node}" method="post">
                 <input class="nodetitle" type="text" th:field="*{title}" />
-                <textarea class="editor" th:field="*{body}"></textarea>
+                <textarea id="editor" th:field="*{body}"></textarea>
                 <input type="submit" />
             </form>
         </div>
@@ -87,10 +79,48 @@
                 </form>
             </div>
         </div>
+
+        <script th:fragment = "ckeditor" type="text/javascript" th:src="@{/js/ckeditor.js}"></script>
+        <script th:fragment = "wysiwyg" >
+            ClassicEditor
+                    .create( document.querySelector( '#editor' ), {
+                        toolbar: {
+                            items: [
+                                'heading',
+                                '|',
+                                'bold',
+                                'italic',
+                                'link',
+                                'bulletedList',
+                                'numberedList',
+                                '|',
+                                'outdent',
+                                'indent',
+                                '|',
+                                'imageUpload',
+                                'blockQuote',
+                                'insertTable',
+                                'mediaEmbed',
+                                'undo',
+                                'redo',
+                                'codeBlock',
+                                'horizontalLine',
+                                'CKFinder'
+                            ]
+                        }
+                    } )
+                    .then( editor => {
+                            console.log( editor );
+                    } )
+                    .catch( error => {
+                            console.error( error );
+                    } );
+        </script>
+
         <footer th:fragment = "footer">
             <div class="row">
                 <div class="col-md-6">
-                    <p>Copyright &copy; 2019 Tutorial Republic</p>
+                    <p>Copyright &copy; 2021 p*r*o*d*e*t</p>
                 </div>
                 <div class="col-md-6 text-md-right">
                     <a href="#" class="text-dark">Terms of Use</a>
