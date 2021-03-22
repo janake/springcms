@@ -82,7 +82,7 @@ public class NodeController {
 		addNodesToModel(model, node.getType());
 		addTypesToModel(model);
 		addTypeToModel(model, node.getType());
-		return "/node";
+		return "node";
 	}
 
 	@RequestMapping(value = "/type/{type}", method = RequestMethod.GET)
@@ -91,7 +91,7 @@ public class NodeController {
 		addNodesToModel(model, typeView);
 		addTypesToModel(model);
 		addTypeToModel(model, typeView);
-		return "/node";
+		return "node";
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
