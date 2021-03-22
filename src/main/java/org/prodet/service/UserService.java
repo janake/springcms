@@ -12,10 +12,9 @@ public class UserService {
 	@Autowired
 	UserRepositoryInterface userRepo;
 
-	public UserView findByuserNameOrEmail(String userName) {
+	public User findByuserNameOrEmail(String userName) {
 		User user = userRepo.findByuserNameOrEmail(userName);
-		UserView userView = new UserView(user);
-		return userView;
+		return user;
 	}
 
 }

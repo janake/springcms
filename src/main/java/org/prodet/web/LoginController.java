@@ -1,8 +1,6 @@
 package org.prodet.web;
 
-import java.util.ArrayList;
-import org.prodet.service.NodeServiceInterface;
-import org.prodet.service.dao.NodeView;
+import org.prodet.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,19 +9,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginController {
-	
-	@Autowired
-	NodeServiceInterface nodeService;
-	
-	@RequestMapping(value = "/login", method=RequestMethod.GET)
-	public String login(Model model) {
-		
-		ArrayList<NodeView> allCurrentNodes = nodeService.getAllNodes();
 
-		model.addAttribute("nodes", allCurrentNodes);
-		model.addAttribute("fragment", "login.ftl");
-		
-		return "index";
+	@Autowired
+	private TypeService typeService;
+
+	// Login form
+	@RequestMapping(value = "/login.html", method=RequestMethod.GET)
+	public String login(Model model) {
+		model.addAttribute("types", typeService.getAllType());
+		return "login.html";
+	}
+
+	// Login form with error
+	@RequestMapping(value = "/login-error.html", method=RequestMethod.GET)
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
+		model.addAttribute("types", typeService.getAllType());
+		return "login.html";
 	}
 	
 }

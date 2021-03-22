@@ -1,5 +1,7 @@
 package org.prodet.service.dao;
 
+import org.prodet.repository.domain.Node;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,15 +16,19 @@ public class NodeView {
 	private String body;
 	
 	private UserView createdBy;
-	
+
+	private TypeView type;
+
 	public NodeView() {
 		
 	}
 
-	public NodeView(String title, String body, UserView createdBy) {
-		this.title = title;
-		this.body = body;
-		this.createdBy = createdBy;
+	public NodeView(Node node) {
+		this.id = node.getId();
+		this.title = node.getTitle();
+		this.body = node.getBody();
+		this.createdBy = new UserView(node.getCreatedBy());
+		this.type = new TypeView(node.getType());
 	}
 
 	public NodeView(Long id, String title, String body, UserView createdBy) {
@@ -32,8 +38,8 @@ public class NodeView {
 		this.createdBy = createdBy;
 	}
 	
-	public static NodeView getNode() {
-		return new NodeView();
+	public NodeView getNode() {
+		return this;
 	}
 
 	public String getTitle() {
@@ -68,9 +74,17 @@ public class NodeView {
 		return this.createdBy;
 	}
 
+	public void setType(TypeView type) {
+		this.type = type;
+	}
+
+	public TypeView getType() {
+		return type;
+	}
+
 	@Override
 	public String toString() {
 		return "NodeView [title=" + title + ", id=" + id + ", body=" + body + ", createdBy=" + createdBy + "]";
 	}
-	
+
 }
