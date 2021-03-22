@@ -38,7 +38,10 @@ public class InitDefaultUsersConfig {
 
 		typeRepository.save(new Type("Home", "Node"));
 		typeRepository.save(new Type("Java", "Node"));
+		typeRepository.save(new Type("Spring", "Node"));
 		typeRepository.save(new Type("Docker", "Node"));
+		typeRepository.save(new Type("Maven", "Node"));
+		typeRepository.save(new Type("Gradle", "Node"));
 		typeRepository.save(new Type("Contact", "Node"));
 
 		Optional<Role> adminRole = roleRepository.findById(1l);
