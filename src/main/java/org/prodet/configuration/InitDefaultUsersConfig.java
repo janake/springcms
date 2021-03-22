@@ -25,7 +25,11 @@ public class InitDefaultUsersConfig {
 	@Autowired
 	public void init(UserRepositoryInterface userRepository, RoleRepositoryInterface roleRepository,
 					 TypeRepositoryInterface typeRepository) {
-		
+
+		if (typeRepository.count() > 0) {
+			return;
+		}
+
 		ArrayList<Role> janakeRoles = new ArrayList<Role>();
 		ArrayList<Role> adminRoles = new ArrayList<Role>();
 
