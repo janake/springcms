@@ -32,7 +32,7 @@ public class LoginController {
 	@RequestMapping(value = "/logout", method=RequestMethod.GET)
 	public String logout(Model model) {
 		model.addAttribute("types", typeService.getAllType());
-		return "login.html";
+		return "/";
 	}
 	
 }

@@ -23,7 +23,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav" th:each="type: ${types}">
                         <a th:text="${type.typeName}" th:href="@{/node/type/{typeName}
-                        (typeName = ${type.typeName})}" class="nav-item nav-link active"></a>
+                        (typeName = ${type.typeName})}" class="nav-item nav-link"></a>
                     </div>
                     <div class="navbar-nav ml-auto">
                         <div sec:authorize="!isAuthenticated()">
@@ -34,7 +34,7 @@
                         </div>
                         <div sec:authorize="isAuthenticated()">
                             <span class="navbar-brand" sec:authentication="name"></span>
-                            <a href="#" th:href="@{/logout}">Log Out</a>
+                            <a href="#" th:href="@{/logout}" class="navbar-brand">Log Out</a>
                         </div>
                     </div>
                 </div>
