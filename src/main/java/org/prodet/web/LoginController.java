@@ -27,5 +27,12 @@ public class LoginController {
 		model.addAttribute("types", typeService.getAllType());
 		return "login.html";
 	}
+
+	// Logout form
+	@RequestMapping(value = "/logout", method=RequestMethod.GET)
+	public String logout(Model model) {
+		model.addAttribute("types", typeService.getAllType());
+		return "login.html";
+	}
 	
 }

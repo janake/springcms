@@ -1,4 +1,4 @@
-package org.prodet.repository.domain;
+package org.prodet.repository.dao;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import org.prodet.service.dao.UserView;
+import org.prodet.service.dto.UserDTO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -77,7 +77,7 @@ public class User {
 		this.roles = roles;
 	}
 
-	public User(UserView createdBy) {
+	public User(UserDTO createdBy) {
 		this.id = createdBy.getId();
 	}
 

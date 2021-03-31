@@ -3,7 +3,7 @@ package org.prodet.web;
 import java.util.ArrayList;
 
 import org.prodet.service.NodeServiceInterface;
-import org.prodet.service.dao.NodeView;
+import org.prodet.service.dto.NodeDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ public class AdminController {
 	@RequestMapping(value="/config", method=RequestMethod.GET)
 	public String getAdmin(Model model, NodeServiceInterface nodeService) {
 		
-		ArrayList<NodeView> allCurrentNodes = nodeService.getAllNodes();
+		ArrayList<NodeDTO> allCurrentNodes = nodeService.getAllNodes();
 		model.addAttribute("nodes", allCurrentNodes);
 		model.addAttribute("fragment", "admin.ftl");
 		

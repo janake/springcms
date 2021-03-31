@@ -1,8 +1,8 @@
 package org.prodet.service;
 
-import org.prodet.repository.domain.Type;
+import org.prodet.repository.dao.Type;
 import org.prodet.repository.repository.TypeRepositoryInterface;
-import org.prodet.service.dao.TypeView;
+import org.prodet.service.dto.TypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +15,19 @@ public class TypeService {
     @Autowired
     private TypeRepositoryInterface typeRepo;
 
-    public List<TypeView> getAllType() {
+    public List<TypeDTO> getAllType() {
         Iterable<Type> types = typeRepo.findAll();
-        List<TypeView> typeViews = new ArrayList<>();
+        List<TypeDTO> typeDTOS = new ArrayList<>();
         types.forEach(
                 v -> {
-                    typeViews.add(new TypeView(v));
+                    typeDTOS.add(new TypeDTO(v));
                 }
         );
-        return typeViews;
+        return typeDTOS;
     }
 
-    public TypeView getTypeByName(String typeName) {
+    public TypeDTO getTypeByName(String typeName) {
         Type type = typeRepo.findByName(typeName);
-        return new TypeView(type);
+        return new TypeDTO(type);
     }
 }

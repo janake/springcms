@@ -1,6 +1,6 @@
-package org.prodet.repository.domain;
+package org.prodet.repository.dao;
 
-import org.prodet.service.dao.TypeView;
+import org.prodet.service.dto.TypeDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,10 +33,10 @@ public class Type {
 		this.entityName = entityName;
 	}
 
-    public Type(TypeView typeView) {
-		this.typeName = typeView.getTypeName();
-		this.id = typeView.getId();
-		this.entityName = typeView.getEntityName();
+    public Type(TypeDTO typeDTO) {
+		this.typeName = typeDTO.getTypeName();
+		this.id = typeDTO.getId();
+		this.entityName = typeDTO.getEntityName();
     }
 
     public long getId() {

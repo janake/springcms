@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.prodet.service.NodeServiceInterface;
 import org.prodet.service.TypeService;
-import org.prodet.service.dao.NodeView;
+import org.prodet.service.dto.NodeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class IndexController {
 		method = RequestMethod.GET
 	)
 	public String getIndex(Model model) {
-		ArrayList<NodeView> nodes = nodeService.getAllNodes();
+		ArrayList<NodeDTO> nodes = nodeService.getAllNodes();
 		model.addAttribute("nodes", nodes);
 		model.addAttribute("types", typeService.getAllType());
 		return "index";
