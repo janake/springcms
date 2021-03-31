@@ -1,4 +1,4 @@
-package org.prodet.repository.domain;
+package org.prodet.repository.dao;
 
 import java.time.LocalDateTime;
 

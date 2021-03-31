@@ -1,8 +1,8 @@
-package org.prodet.service.dao;
+package org.prodet.service.dto;
 
-import org.prodet.repository.domain.Type;
+import org.prodet.repository.dao.Type;
 
-public class TypeView {
+public class TypeDTO {
 
     private long id;
 
@@ -10,22 +10,22 @@ public class TypeView {
 
     private String entityName;
 
-    public TypeView () {
+    public TypeDTO() {
 
     }
 
-    public TypeView(long id, String typeName, String entityName) {
+    public TypeDTO(long id, String typeName, String entityName) {
         this.typeName = typeName;
         this.entityName = entityName;
         this.id = id;
     }
 
-    public TypeView(String typeName, String entityName) {
+    public TypeDTO(String typeName, String entityName) {
         this.typeName = typeName;
         this.entityName = entityName;
     }
 
-    public TypeView(Type type) {
+    public TypeDTO(Type type) {
         this.entityName = type.getEntityName();
         this.id = type.getId();
         this.typeName = type.getTypeName();

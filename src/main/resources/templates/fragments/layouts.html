@@ -23,7 +23,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav" th:each="type: ${types}">
                         <a th:text="${type.typeName}" th:href="@{/node/type/{typeName}
-                        (typeName = ${type.typeName})}" class="nav-item nav-link active"></a>
+                        (typeName = ${type.typeName})}" class="nav-item nav-link"></a>
                     </div>
                     <div class="navbar-nav ml-auto">
                         <div sec:authorize="!isAuthenticated()">
@@ -34,6 +34,7 @@
                         </div>
                         <div sec:authorize="isAuthenticated()">
                             <span class="navbar-brand" sec:authentication="name"></span>
+                            <a href="#" th:href="@{/logout}" class="navbar-brand">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -42,7 +43,7 @@
         <ul  th:fragment = "menu" class="vertical-nav navbar-nav mr-auto flex-column w3-light-grey">
             <li class="sidebar-brand"><h2>Notes</h2></li>
             <li class="nav-item">
-                <p><a th:href="@{/node/{typeName}/new(typeName = ${typeView.typeName})}" class="btn btn-success">Create new node</a></p>
+                <p><a th:href="@{/node/{typeName}/new(typeName = ${typeDTO.typeName})}" class="btn btn-success">Create new node</a></p>
             </li>
             <li class="nav-item" th:each="node: ${nodes}">
                 <a th:text="${node.title}" th:href="@{/node/{id}(id = ${node.id})}"></a>
@@ -54,7 +55,7 @@
         <div th:fragment = "main-content" class="col-md-11 col-lg-9 col-xl-8">
         </div>
         <div th:fragment = "newnode" class="col-md-11 col-lg-9 col-xl-8 form-group">
-            <form th:action="@{/node/{type}/createNewNode(type = ${typeView.typeName})}" th:object="${node}" method="post">
+            <form th:action="@{/node/{type}/createNewNode(type = ${typeDTO.typeName})}" th:object="${node}" method="post">
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input id="title" class="nodetitle" type="text" th:field="*{title}" />

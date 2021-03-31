@@ -1,11 +1,11 @@
-package org.prodet.service.dao;
+package org.prodet.service.dto;
 
-import org.prodet.repository.domain.Node;
+import org.prodet.repository.dao.Node;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class NodeView {
+public class NodeDTO {
 	
 	@NotNull
     @Size(min=3, max=200)
@@ -15,30 +15,30 @@ public class NodeView {
 	
 	private String body;
 	
-	private UserView createdBy;
+	private UserDTO createdBy;
 
-	private TypeView type;
+	private TypeDTO type;
 
-	public NodeView() {
+	public NodeDTO() {
 		
 	}
 
-	public NodeView(Node node) {
+	public NodeDTO(Node node) {
 		this.id = node.getId();
 		this.title = node.getTitle();
 		this.body = node.getBody();
-		this.createdBy = new UserView(node.getCreatedBy());
-		this.type = new TypeView(node.getType());
+		this.createdBy = new UserDTO(node.getCreatedBy());
+		this.type = new TypeDTO(node.getType());
 	}
 
-	public NodeView(Long id, String title, String body, UserView createdBy) {
+	public NodeDTO(Long id, String title, String body, UserDTO createdBy) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.createdBy = createdBy;
 	}
 	
-	public NodeView getNode() {
+	public NodeDTO getNode() {
 		return this;
 	}
 
@@ -66,19 +66,19 @@ public class NodeView {
 		this.id = id;
 	}
 
-	public void setCreatedBy(UserView user) {
+	public void setCreatedBy(UserDTO user) {
 		this.createdBy = user;
 	}
 	
-	public UserView getCreatedBy() {
+	public UserDTO getCreatedBy() {
 		return this.createdBy;
 	}
 
-	public void setType(TypeView type) {
+	public void setType(TypeDTO type) {
 		this.type = type;
 	}
 
-	public TypeView getType() {
+	public TypeDTO getType() {
 		return type;
 	}
 

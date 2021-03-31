@@ -7,14 +7,13 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.prodet.configuration.EntityNotFoundException;
-import org.prodet.repository.domain.Node;
-import org.prodet.repository.domain.Type;
-import org.prodet.repository.domain.User;
+import org.prodet.repository.dao.Node;
+import org.prodet.repository.dao.Type;
+import org.prodet.repository.dao.User;
 import org.prodet.repository.repository.NodeRepositoryInterface;
 import org.prodet.repository.repository.UserRepositoryInterface;
-import org.prodet.service.dao.NodeView;
-import org.prodet.service.dao.TypeView;
-import org.prodet.service.dao.UserView;
+import org.prodet.service.dto.NodeDTO;
+import org.prodet.service.dto.TypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +47,7 @@ public class NodeService implements NodeServiceInterface {
 
 	@Override
 	@Transactional
-	public Long update(NodeView nodeDao) {
+	public Long update(NodeDTO nodeDao) {
 		Optional<Node> node = nodeRepository.findById(nodeDao.getId());
 
 		if (node.isPresent()) {
@@ -61,12 +60,12 @@ public class NodeService implements NodeServiceInterface {
 	}
 	
 	@Override
-	public NodeView getNode(Long id) throws EntityNotFoundException {
-		NodeView node = new NodeView();
+	public NodeDTO getNode(Long id) throws EntityNotFoundException {
+		NodeDTO node = new NodeDTO();
 		try {
 			Optional<Node> response = nodeRepository.findById(id);
 			if (response.isPresent()) {
-				node = new NodeView(response.get());
+				node = new NodeDTO(response.get());
 			}
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);
@@ -75,21 +74,21 @@ public class NodeService implements NodeServiceInterface {
 	}
 
 	@Override
-	public ArrayList<NodeView> getAllNodes() {
+	public ArrayList<NodeDTO> getAllNodes() {
 		Iterable<Node> nodes = nodeRepository.findAll();
-		 ArrayList<NodeView> nodeList = nodeToNodeDAOs(nodes);
+		 ArrayList<NodeDTO> nodeList = nodeToNodeDAOs(nodes);
 		return nodeList;
 	}
 
 	@Override
-	public ArrayList<NodeView> getAllNodesByType(TypeView typeView) {
-		Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeView));
-		ArrayList<NodeView> nodeList = nodeToNodeDAOs(nodes);
+	public ArrayList<NodeDTO> getAllNodesByType(TypeDTO typeDTO) {
+		Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeDTO));
+		ArrayList<NodeDTO> nodeList = nodeToNodeDAOs(nodes);
 		return nodeList;
 	}
 
-	private ArrayList<NodeView> nodeToNodeDAOs(Iterable<Node> nodes) {
-		ArrayList<NodeView> nodeList = new ArrayList<NodeView>();
+	private ArrayList<NodeDTO> nodeToNodeDAOs(Iterable<Node> nodes) {
+		ArrayList<NodeDTO> nodeList = new ArrayList<NodeDTO>();
 		Iterator<Node> nodeIterator = nodes.iterator();
 		
 		while(nodeIterator.hasNext()) {
@@ -100,8 +99,8 @@ public class NodeService implements NodeServiceInterface {
 		return nodeList;
 	}
 	
-	private NodeView nodeToNodeDAO(Node node) {
-		return new NodeView(node);
+	private NodeDTO nodeToNodeDAO(Node node) {
+		return new NodeDTO(node);
 	}
 	
 }

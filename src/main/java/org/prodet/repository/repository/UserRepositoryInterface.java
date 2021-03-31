@@ -1,6 +1,6 @@
 package org.prodet.repository.repository;
 
-import org.prodet.repository.domain.User;
+import org.prodet.repository.dao.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

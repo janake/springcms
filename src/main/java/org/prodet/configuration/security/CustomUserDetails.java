@@ -2,7 +2,7 @@ package org.prodet.configuration.security;
 
 import java.util.Collection;
 
-import org.prodet.repository.domain.User;
+import org.prodet.repository.dao.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
 package org.prodet.configuration.security;
 
-import org.prodet.repository.domain.User;
+import org.prodet.repository.dao.User;
 import org.prodet.repository.repository.UserRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

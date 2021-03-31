@@ -1,8 +1,8 @@
 package org.prodet.configuration;
 
-import org.prodet.repository.domain.Role;
-import org.prodet.repository.domain.Type;
-import org.prodet.repository.domain.User;
+import org.prodet.repository.dao.Role;
+import org.prodet.repository.dao.Type;
+import org.prodet.repository.dao.User;
 import org.prodet.repository.repository.RoleRepositoryInterface;
 import org.prodet.repository.repository.TypeRepositoryInterface;
 import org.prodet.repository.repository.UserRepositoryInterface;

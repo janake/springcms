@@ -1,11 +1,11 @@
-package org.prodet.service.dao;
+package org.prodet.service.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import org.prodet.repository.domain.Role;
-import org.prodet.repository.domain.User;
+import org.prodet.repository.dao.Role;
+import org.prodet.repository.dao.User;
 
-public class UserView {
+public class UserDTO {
 	
 	private long id;
 	
@@ -23,10 +23,10 @@ public class UserView {
 	
 	private List<Role> roles;
 	
-	public UserView() {
+	public UserDTO() {
 	}
 
-	public UserView(User user) {
+	public UserDTO(User user) {
 		this.id = user.getId();
 		this.userName = user.getUserName();
 		this.email = user.getEmail();
