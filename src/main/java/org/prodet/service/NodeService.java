@@ -1,5 +1,6 @@
 package org.prodet.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.prodet.configuration.EntityNotFoundException;
+import org.prodet.configuration.security.CustomUserDetails;
 import org.prodet.repository.dao.Node;
 import org.prodet.repository.dao.Type;
 import org.prodet.repository.dao.User;
@@ -15,6 +17,7 @@ import org.prodet.repository.repository.UserRepositoryInterface;
 import org.prodet.service.dto.NodeDTO;
 import org.prodet.service.dto.TypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +44,7 @@ public class NodeService implements NodeServiceInterface {
 		node.setCreatedBy(user);
 		node.setType(nodeFromController.getType());
 		node.setCreatedDate();
+		node.setVisibility(nodeFromController.getVisibility());
 		Node response = nodeRepository.save(node);
 		return response.getId();		
 	}
@@ -53,6 +57,7 @@ public class NodeService implements NodeServiceInterface {
 		if (node.isPresent()) {
 			node.get().setBody(nodeDao.getBody());
 			node.get().setTitle(nodeDao.getTitle());
+			node.get().setVisibility(nodeDao.getVisibility());
 			nodeRepository.save(node.get());
 		}
 
@@ -60,10 +65,11 @@ public class NodeService implements NodeServiceInterface {
 	}
 	
 	@Override
-	public NodeDTO getNode(Long id) throws EntityNotFoundException {
+	public NodeDTO getNode(long id, Principal principal) throws EntityNotFoundException {
 		NodeDTO node = new NodeDTO();
 		try {
-			Optional<Node> response = nodeRepository.findById(id);
+			User user = getUserFromPrincipal(principal);
+			Optional<Node> response = nodeRepository.findNodeById(id, user);
 			if (response.isPresent()) {
 				node = new NodeDTO(response.get());
 			}
@@ -81,10 +87,25 @@ public class NodeService implements NodeServiceInterface {
 	}
 
 	@Override
-	public ArrayList<NodeDTO> getAllNodesByType(TypeDTO typeDTO) {
-		Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeDTO));
-		ArrayList<NodeDTO> nodeList = nodeToNodeDAOs(nodes);
+	public ArrayList<NodeDTO> getAllNodesByType(TypeDTO typeDTO, Principal principal) {
+		ArrayList<NodeDTO> nodeList = null;
+		if (principal != null) {
+			User user = getUserFromPrincipal(principal);
+			Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeDTO), user);
+			nodeList = nodeToNodeDAOs(nodes);
+		} else {
+			Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeDTO));
+			nodeList = nodeToNodeDAOs(nodes);
+		}
 		return nodeList;
+	}
+
+	private User getUserFromPrincipal(Principal principal) {
+		String userName = ((CustomUserDetails)(((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal()))
+				.getUsername();
+		User user = userRepository.findByuserNameOrEmail(userName);
+		return user;
 	}
 
 	private ArrayList<NodeDTO> nodeToNodeDAOs(Iterable<Node> nodes) {

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import javax.validation.Valid;
 import org.prodet.configuration.EntityNotFoundException;
+import org.prodet.configuration.security.CustomUserDetails;
 import org.prodet.repository.dao.Node;
 import org.prodet.repository.dao.Type;
 import org.prodet.repository.dao.User;
@@ -14,6 +15,8 @@ import org.prodet.service.dto.NodeDTO;
 import org.prodet.service.dto.TypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,9 +45,9 @@ public class NodeController {
 	}
 
 	@RequestMapping(value = "/{type}/new")
-	public String createNewNode(@PathVariable String type, Model model) {
+	public String createNewNode(@PathVariable String type, Model model, Principal principal) {
 		TypeDTO typeDTO = typeService.getTypeByName(type);
-		addNodesToModel(model, typeDTO);
+		addNodesToModel(model, typeDTO, principal);
 		addTypesToModel(model);
 		addTypeToModel(model, typeDTO);
 		return "newnode";
@@ -76,32 +79,31 @@ public class NodeController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getNode(@PathVariable Long id, Model model) throws EntityNotFoundException {
-		NodeDTO node = nodeService.getNode(id);
+	public String getNode(@PathVariable Long id, Model model, Principal principal) throws EntityNotFoundException {
+		NodeDTO node = nodeService.getNode(id, principal);
 		addCurrentNodeToModel(node, model);
-		addNodesToModel(model, node.getType());
+		addNodesToModel(model, node.getType(), principal);
 		addTypesToModel(model);
 		addTypeToModel(model, node.getType());
 		return "node";
 	}
 
 	@RequestMapping(value = "/type/{type}", method = RequestMethod.GET)
-	public String getNodeByType(@PathVariable String type, Model model) throws EntityNotFoundException {
+	public String getNodeByType(@PathVariable String type, Model model, Principal principal) throws EntityNotFoundException {
 		TypeDTO typeDTO = typeService.getTypeByName(type);
-		addNodesToModel(model, typeDTO);
+		addNodesToModel(model, typeDTO, principal);
 		addTypesToModel(model);
 		addTypeToModel(model, typeDTO);
 		return "node";
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-	public String setNode(@PathVariable Long id, Model model) throws EntityNotFoundException {
-		NodeDTO node = nodeService.getNode(id);
+	public String setNode(@PathVariable Long id, Model model, Principal principal) throws EntityNotFoundException {
+		NodeDTO node = nodeService.getNode(id, principal);
 		addCurrentNodeToModel(node, model);
-		addNodesToModel(model, node.getType());
+		addNodesToModel(model, node.getType(), principal);
 		addTypesToModel(model);
 		return "editnode";
-
 	}
 
 	private void addCurrentNodeToModel(NodeDTO node, Model model) throws EntityNotFoundException {
@@ -114,8 +116,8 @@ public class NodeController {
 		model.addAttribute("types", typeService.getAllType());
 	}
 
-	private void addNodesToModel(Model model, TypeDTO type) {
-		ArrayList<NodeDTO> nodes = nodeService.getAllNodesByType(type);
+	private void addNodesToModel(Model model, TypeDTO type, Principal principal) {
+		ArrayList<NodeDTO> nodes = nodeService.getAllNodesByType(type, principal);
 		model.addAttribute("nodes", nodes);
 	}
 

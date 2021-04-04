@@ -26,13 +26,16 @@ public class Node {
 	private LocalDateTime lastModificationDate;
 
 	private LocalDateTime createdDate;
+
+	@Enumerated(EnumType.STRING)
+	private Visibility visibility;
 	
 	public Node() {
 
 	}
 
 	public Node(Long id, String title, String body, User createdBy,
-			LocalDateTime lastModificationDate, Type type) {
+			LocalDateTime lastModificationDate, Type type, Visibility visibility) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -41,6 +44,7 @@ public class Node {
 		setCreatedDate();
 		this.lastModificationDate = lastModificationDate;
 		this.type = type;
+		this.visibility = visibility;
 	}
 
 	public Long getId() {
@@ -97,6 +101,14 @@ public class Node {
 
 	public void setLastModificationDate(LocalDateTime lastModificationDate) {
 		this.lastModificationDate = lastModificationDate;
+	}
+
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
 	}
 
 }
