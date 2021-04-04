@@ -5,6 +5,7 @@ import org.prodet.repository.dao.Node;
 import org.prodet.service.dto.NodeDTO;
 import org.prodet.service.dto.TypeDTO;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 public interface NodeServiceInterface {
@@ -13,9 +14,9 @@ public interface NodeServiceInterface {
 
 	Long update(NodeDTO nodeDao);
 
-	NodeDTO getNode(Long id) throws EntityNotFoundException;
+	NodeDTO getNode(long id, Principal principal) throws EntityNotFoundException;
 
 	ArrayList<NodeDTO> getAllNodes();
 
-    ArrayList<NodeDTO> getAllNodesByType(TypeDTO type);
+    ArrayList<NodeDTO> getAllNodesByType(TypeDTO type, Principal principal);
 }

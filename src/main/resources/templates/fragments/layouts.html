@@ -64,6 +64,14 @@
                     <label for=editor>Body:</label>
                     <textarea id="editor" th:field="*{body}"></textarea>
                 </div>
+                <div>
+                    <select th:field="*{visibility}">
+                        <option th:each="state : ${T(org.prodet.repository.dao.Visibility).values()}"
+                                th:value="${state}"
+                                th:text="${state}">
+                        </option>
+                    </select>
+                </div>
                 <input type="submit" />
             </form>
         </div>

@@ -1,6 +1,7 @@
 package org.prodet.service.dto;
 
 import org.prodet.repository.dao.Node;
+import org.prodet.repository.dao.Visibility;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,6 +20,8 @@ public class NodeDTO {
 
 	private TypeDTO type;
 
+	private Visibility visibility;
+
 	public NodeDTO() {
 		
 	}
@@ -29,15 +32,9 @@ public class NodeDTO {
 		this.body = node.getBody();
 		this.createdBy = new UserDTO(node.getCreatedBy());
 		this.type = new TypeDTO(node.getType());
+		this.visibility = node.getVisibility();
 	}
 
-	public NodeDTO(Long id, String title, String body, UserDTO createdBy) {
-		this.id = id;
-		this.title = title;
-		this.body = body;
-		this.createdBy = createdBy;
-	}
-	
 	public NodeDTO getNode() {
 		return this;
 	}
@@ -80,6 +77,14 @@ public class NodeDTO {
 
 	public TypeDTO getType() {
 		return type;
+	}
+
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
 	}
 
 	@Override
