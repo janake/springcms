@@ -39,7 +39,7 @@ public class NodeController {
 	@RequestMapping(value = "/{type}/new")
 	public String createNewNode(@PathVariable String type, Model model, Principal principal) {
 		nodeService.addNodesToModel(model, type, principal);
-		nodeService.addTypesToModel(model);
+		nodeService.addTypesToModel(model, principal);
 		nodeService.addTypeToModel(model, type);
 		return "newnode";
 	}
@@ -73,7 +73,7 @@ public class NodeController {
 		NodeDTO node = nodeService.getNode(id, principal);
 		nodeService.addNodeToModel(node, model);
 		nodeService.addNodesToModel(model, node.getType(), principal);
-		nodeService.addTypesToModel(model);
+		nodeService.addTypesToModel(model, principal);
 		nodeService.addTypeToModel(model, node.getType());
 		return "node";
 	}
@@ -81,7 +81,7 @@ public class NodeController {
 	@RequestMapping(value = "/type/{type}", method = RequestMethod.GET)
 	public String getNodeByType(@PathVariable String type, Model model, Principal principal) throws EntityNotFoundException {
 		nodeService.addNodesToModel(model, type, principal);
-		nodeService.addTypesToModel(model);
+		nodeService.addTypesToModel(model, principal);
 		nodeService.addTypeToModel(model, type);
 		return "node";
 	}
@@ -92,7 +92,7 @@ public class NodeController {
 		nodeService.addNodeToModel(node, model);
 		nodeService.addTypeToModel(model, node.getType());
 		nodeService.addNodesToModel(model, node.getType(), principal);
-		nodeService.addTypesToModel(model);
+		nodeService.addTypesToModel(model, principal);
 		return "editnode";
 	}
 }

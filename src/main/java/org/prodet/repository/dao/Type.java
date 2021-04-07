@@ -19,24 +19,30 @@ public class Type {
 	@Enumerated(EnumType.STRING)
 	private Visibility visibility;
 
+	@OneToOne
+	private User createdBy;
+
 	public Type() {
 	}
 
-	public Type(long id, String typeName, String entityName) {
+	public Type(long id, String typeName, String entityName, User user) {
 		this.typeName = typeName;
 		this.entityName = entityName;
 		this.id = id;
+		this.createdBy = user;
 	}
 
-	public Type(String typeName, String entityName, Visibility visibility) {
+	public Type(String typeName, String entityName, Visibility visibility, User user) {
 		this.typeName = typeName;
 		this.entityName = entityName;
 		this.visibility = visibility;
+		this.createdBy = user;
 	}
 
-	public Type(String typeName, String entityName) {
+	public Type(String typeName, String entityName, User user) {
 		this.typeName = typeName;
 		this.entityName = entityName;
+		this.createdBy = user;
 	}
 
     public Type(TypeDTO typeDTO) {
@@ -44,6 +50,7 @@ public class Type {
 		this.id = typeDTO.getId();
 		this.entityName = typeDTO.getEntityName();
 		this.visibility = typeDTO.getVisibility();
+		this.createdBy = new User(typeDTO.getCreatedBy());
     }
 
     public long getId() {
@@ -78,6 +85,14 @@ public class Type {
 		this.visibility = visibility;
 	}
 
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
 
 
 }

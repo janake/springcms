@@ -1,11 +1,16 @@
 package org.prodet.service;
 
+import org.prodet.configuration.security.CustomUserDetails;
 import org.prodet.repository.dao.Type;
+import org.prodet.repository.dao.User;
 import org.prodet.repository.repository.TypeRepositoryInterface;
 import org.prodet.service.dto.TypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +20,19 @@ public class TypeService {
     @Autowired
     private TypeRepositoryInterface typeRepo;
 
-    public List<TypeDTO> getAllType() {
-        Iterable<Type> types = typeRepo.findAll();
+    @Autowired
+    private UserService userService;
+
+    public List<TypeDTO> getAllType(Principal principal) {
+
+        Iterable<Type> types;
+        if (principal != null) {
+            User user = userService.getUserFromPrincipal(principal);
+            types = typeRepo.findAllByUser(user);
+        } else {
+            types = typeRepo.findAllByPublic();
+        }
+
         List<TypeDTO> typeDTOS = new ArrayList<>();
         types.forEach(
                 v -> {
@@ -26,8 +42,31 @@ public class TypeService {
         return typeDTOS;
     }
 
+    public void addTypesToModel(Model model, Principal principal) {
+        Iterable<Type> types;
+        if (principal != null) {
+            User user = userService.getUserFromPrincipal(principal);
+            types = typeRepo.findAllByUser(user);
+        } else {
+            types = typeRepo.findAllByPublic();
+        }
+
+        List<TypeDTO> typeDTOS = new ArrayList<>();
+        types.forEach(
+                v -> {
+                    typeDTOS.add(new TypeDTO(v));
+                }
+        );
+        model.addAttribute("types", typeDTOS);
+    }
+
     public TypeDTO getTypeByName(String typeName) {
         Type type = typeRepo.findByName(typeName);
         return new TypeDTO(type);
+    }
+
+    public void save(List<TypeDTO> validTypeListDTOs) {
+        validTypeListDTOs.stream().forEach(v ->
+                typeRepo.save(new Type(v)));
     }
 }

@@ -16,20 +16,24 @@ public class TypeDTO {
 
     private Visibility visibility;
 
+    private UserDTO createdBy;
+
     public TypeDTO() {
 
     }
 
-    public TypeDTO(long id, String typeName, String entityName, Visibility visibility) {
+    public TypeDTO(long id, String typeName, String entityName, Visibility visibility, UserDTO createdBy) {
         this.typeName = typeName;
         this.entityName = entityName;
         this.id = id;
         this.visibility = visibility;
+        this.createdBy = createdBy;
     }
 
-    public TypeDTO(String typeName, String entityName) {
+    public TypeDTO(String typeName, String entityName, UserDTO createdBy) {
         this.typeName = typeName;
         this.entityName = entityName;
+        this.createdBy = createdBy;
     }
 
     public TypeDTO(Type type) {
@@ -37,6 +41,7 @@ public class TypeDTO {
         this.id = type.getId();
         this.typeName = type.getTypeName();
         this.visibility = type.getVisibility();
+        this.createdBy = new UserDTO(type.getCreatedBy());
     }
 
     public long getId() {
@@ -71,6 +76,13 @@ public class TypeDTO {
         this.visibility = visibility;
     }
 
+    public UserDTO getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserDTO createdBy) {
+        this.createdBy = createdBy;
+    }
 
 
 }

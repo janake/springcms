@@ -17,66 +17,62 @@ import java.util.Optional;
 
 
 
-    @Configuration
-    public class InitDefaultUsersConfig {
+@Configuration
+public class InitDefaultUsersConfig {
 
-        @Value("#{${base.types}}")
-        private Map<String, String> types;
+    @Value("#{${base.types}}")
+    private Map<String, String> types;
 
-        @Transactional
-        @Autowired
-        public void init(UserRepositoryInterface userRepository, RoleRepositoryInterface roleRepository,
-                         TypeRepositoryInterface typeRepository) {
+    @Transactional
+    @Autowired
+    public void init(UserRepositoryInterface userRepository, RoleRepositoryInterface roleRepository,
+                     TypeRepositoryInterface typeRepository) {
 
-            if (typeRepository.count() > 0) {
-                return;
-            }
-
-            ArrayList<Role> janakeRoles = new ArrayList<Role>();
-            ArrayList<Role> adminRoles = new ArrayList<Role>();
-
-            roleRepository.save(new Role(1L, "admin"));
-            roleRepository.save(new Role(2L, "user"));
-
-            types.entrySet().stream().forEach((e) -> {
-                typeRepository.save(
-                        new Type(e.getKey(), e.getValue())
-                );
-            } );
-
-
-
-            Optional<Role> adminRole = roleRepository.findById(1l);
-            Optional<Role> userRole = roleRepository.findById(2l);
-
-            if (adminRole.isPresent()) {
-                adminRoles.add(adminRole.get());
-            }
-            if (userRole.isPresent()) {
-                adminRoles.add(userRole.get());
-                janakeRoles.add(userRole.get());
-            }
-
-            User admin = new User("admin", "admin@example.com",
-                    "pwd", "", "", true, adminRoles);
-            userRepository.save(admin);
-
-            if (userRole.isPresent()) {
-                janakeRoles.add(userRole.get());
-            }
-
-            User janake = new User("janake", "janak.endre@gmail.com",
-                    "pwd", "", "", true, janakeRoles);
-
-            userRepository.save(janake);
-
-
-            User latkoor = new User("latkoor", "latkocki@gmail.com",
-                    "telebanka", "", "", true, janakeRoles);
-
-            userRepository.save(latkoor);
-
+        if (typeRepository.count() > 0) {
+            return;
         }
 
+        ArrayList<Role> janakeRoles = new ArrayList<Role>();
+        ArrayList<Role> adminRoles = new ArrayList<Role>();
+
+        roleRepository.save(new Role(1L, "admin"));
+        roleRepository.save(new Role(2L, "user"));
+
+        Optional<Role> adminRole = roleRepository.findById(1l);
+        Optional<Role> userRole = roleRepository.findById(2l);
+
+        if (adminRole.isPresent()) {
+            adminRoles.add(adminRole.get());
+        }
+        if (userRole.isPresent()) {
+            adminRoles.add(userRole.get());
+            janakeRoles.add(userRole.get());
+        }
+
+        User admin = new User("admin", "admin@example.com",
+                "pwd", "", "", true, adminRoles);
+        userRepository.save(admin);
+
+        if (userRole.isPresent()) {
+            janakeRoles.add(userRole.get());
+        }
+
+        User janake = new User("janake", "janak.endre@gmail.com",
+                "pwd", "", "", true, janakeRoles);
+
+        userRepository.save(janake);
+
+
+        User latkoor = new User("latkoor", "latkocki@gmail.com",
+                "telebanka", "", "", true, janakeRoles);
+
+        userRepository.save(latkoor);
+
+        types.entrySet().stream().forEach((e) -> {
+            typeRepository.save(
+                    new Type(e.getKey(), e.getValue(), janake)
+            );
+        });
     }
+}
 

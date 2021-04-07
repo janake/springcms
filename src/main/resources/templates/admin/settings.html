@@ -11,15 +11,17 @@
                 </div>
                 <div class="col-md-11 col-lg-9 col-xl-8 form-group">
                     <div th:if="${#httpServletRequest.requestURI} eq '/admin/settings/navbar'">
-                        <form th:action="@{/admin/settings/navbar/save}" th:object="${typedtos}" method="post">
+                        <form th:action="@{/admin/settings/navbar/save}" th:object="${typeform}" method="post">
 
                         Navigation bar
 
                         <table class="table">
                             <tbody>
                             <tr th:each="typeDTO, itemStat: *{typeDTOs}">
-                                <td th:text="*{typeDTOs[__${itemStat.index}__].typeName}">
-                                </td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].id}"></td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].entityName}"></td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].typeName}"></td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].createdBy.Id}"></td>
                                 <td>
                                     <select th:field="*{typeDTOs[__${itemStat.index}__].visibility}">
                                         <option th:each="state : ${T(org.prodet.repository.dao.Visibility).values()}"
@@ -28,10 +30,14 @@
                                         </option>
                                     </select>
                                 </td>
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].id}" />
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].entityName}" />
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].typeName}" />
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].createdBy.Id}" />
                             </tr>
                             </tbody>
                         </table>
-                            <input type="submit" />
+                            <input type="submit" text="Save"/>
                         </form>
                     </div>
                     <span th:unless="${#httpServletRequest.requestURI} eq '/admin/settings/navbar'">
@@ -44,7 +50,7 @@
         <footer th:replace="fragments/layouts :: footer"></footer>
     </div>
     <table>
-        <tr th:each="var : ${#vars}">
+        <tr th:each="var : ${#model}">
             <td th:text="${var.key}"></td>
             <td th:text="${var.value}"></td>
         </tr>

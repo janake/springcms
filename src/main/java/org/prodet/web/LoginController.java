@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
+
 @Controller
 public class LoginController {
 
@@ -15,23 +17,23 @@ public class LoginController {
 
 	// Login form
 	@RequestMapping(value = "/login.html", method=RequestMethod.GET)
-	public String login(Model model) {
-		model.addAttribute("types", typeService.getAllType());
+	public String login(Model model, Principal principal) {
+		model.addAttribute("types", typeService.getAllType(principal));
 		return "login.html";
 	}
 
 	// Login form with error
 	@RequestMapping(value = "/login-error.html", method=RequestMethod.GET)
-	public String loginError(Model model) {
+	public String loginError(Model model, Principal principal) {
 		model.addAttribute("loginError", true);
-		model.addAttribute("types", typeService.getAllType());
+		model.addAttribute("types", typeService.getAllType(principal));
 		return "login.html";
 	}
 
 	// Logout form
 	@RequestMapping(value = "/logout", method=RequestMethod.GET)
-	public String logout(Model model) {
-		model.addAttribute("types", typeService.getAllType());
+	public String logout(Model model, Principal principal) {
+		model.addAttribute("types", typeService.getAllType(principal));
 		return "/";
 	}
 	

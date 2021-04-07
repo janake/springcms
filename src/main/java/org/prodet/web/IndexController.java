@@ -1,5 +1,6 @@
 package org.prodet.web;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import org.prodet.service.NodeServiceInterface;
@@ -24,10 +25,10 @@ public class IndexController {
 		value = "/",
 		method = RequestMethod.GET
 	)
-	public String getIndex(Model model) {
+	public String getIndex(Model model, Principal principal) {
 		ArrayList<NodeDTO> nodes = nodeService.getAllNodes();
 		model.addAttribute("nodes", nodes);
-		model.addAttribute("types", typeService.getAllType());
+		model.addAttribute("types", typeService.getAllType(principal));
 		return "index";
 	}
 	

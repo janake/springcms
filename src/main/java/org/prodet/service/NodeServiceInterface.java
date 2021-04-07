@@ -27,7 +27,7 @@ public interface NodeServiceInterface {
 
 	void addNodesToModel(Model model, TypeDTO typeDTO, Principal principal);
 
-	void addTypesToModel(Model model);
+	void addTypesToModel(Model model, Principal principal);
 
 	void addTypeToModel(Model model, TypeDTO typeDTO);
 
@@ -37,5 +37,5 @@ public interface NodeServiceInterface {
 
 	TypeDTO getTypeDTOByType(String type);
 
-    void addTypesToModel(TypeListDTO types, Model model);
+    void addTypesToModel(TypeListDTO types, Model model, Principal principal);
 }
