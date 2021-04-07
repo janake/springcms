@@ -16,15 +16,17 @@ import org.prodet.repository.repository.NodeRepositoryInterface;
 import org.prodet.repository.repository.UserRepositoryInterface;
 import org.prodet.service.dto.NodeDTO;
 import org.prodet.service.dto.TypeDTO;
+import org.prodet.service.dto.TypeListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class NodeService implements NodeServiceInterface {
 
 	@Autowired
-	private UserRepositoryInterface userRepository;
+	private UserService userService;
 
 	@Autowired
 	private NodeRepositoryInterface nodeRepository;
@@ -40,7 +42,7 @@ public class NodeService implements NodeServiceInterface {
 		Node node = new Node();
 		node.setBody(nodeFromController.getBody());
 		node.setTitle(nodeFromController.getTitle());
-		User user = userRepository.findByuserNameOrEmail(nodeFromController.getCreatedBy().getEmail());
+		User user = userService.findByuserNameOrEmail(nodeFromController.getCreatedBy().getEmail());
 		node.setCreatedBy(user);
 		node.setType(nodeFromController.getType());
 		node.setCreatedDate();
@@ -68,7 +70,7 @@ public class NodeService implements NodeServiceInterface {
 	public NodeDTO getNode(long id, Principal principal) throws EntityNotFoundException {
 		NodeDTO node = new NodeDTO();
 		try {
-			User user = getUserFromPrincipal(principal);
+			User user = userService.getUserFromPrincipal(principal);
 			Optional<Node> response = nodeRepository.findNodeById(id, user);
 			if (response.isPresent()) {
 				node = new NodeDTO(response.get());
@@ -90,7 +92,7 @@ public class NodeService implements NodeServiceInterface {
 	public ArrayList<NodeDTO> getAllNodesByType(TypeDTO typeDTO, Principal principal) {
 		ArrayList<NodeDTO> nodeList = null;
 		if (principal != null) {
-			User user = getUserFromPrincipal(principal);
+			User user = userService.getUserFromPrincipal(principal);
 			Iterable<Node> nodes = nodeRepository.findAllByType(new Type(typeDTO), user);
 			nodeList = nodeToNodeDAOs(nodes);
 		} else {
@@ -98,14 +100,6 @@ public class NodeService implements NodeServiceInterface {
 			nodeList = nodeToNodeDAOs(nodes);
 		}
 		return nodeList;
-	}
-
-	private User getUserFromPrincipal(Principal principal) {
-		String userName = ((CustomUserDetails)(((UsernamePasswordAuthenticationToken) principal)
-				.getPrincipal()))
-				.getUsername();
-		User user = userRepository.findByuserNameOrEmail(userName);
-		return user;
 	}
 
 	private ArrayList<NodeDTO> nodeToNodeDAOs(Iterable<Node> nodes) {
@@ -119,9 +113,52 @@ public class NodeService implements NodeServiceInterface {
 		
 		return nodeList;
 	}
-	
+
+	public void addNodeToModel(NodeDTO node, Model model) {
+		model.addAttribute("node", node);
+	}
+
+	 public void addNodeToModel(NodeDTO node, TypeDTO typeDTO, Model model) {
+		model.addAttribute("node", node);
+		addTypeToModel(model, typeDTO);
+	}
+
+	public TypeDTO getTypeDTOByType(String type) {
+		return typeService.getTypeByName(type);
+	}
+
+	@Override
+	public void addTypesToModel(TypeListDTO types, Model model, Principal principal) {
+		types.setTypeDTOs(typeService.getAllType(principal));
+		model.addAttribute("typeform", types);
+	}
+
+	public void addTypeToModel(Model model, String type) {
+		TypeDTO typeDTO = typeService.getTypeByName(type);
+		model.addAttribute("typeDTO", typeDTO);
+	}
+
+	public void addTypeToModel(Model model, TypeDTO typeDTO) {
+		model.addAttribute("typeDTO", typeDTO);
+	}
+
+	public void addNodesToModel(Model model, String type, Principal principal) {
+		TypeDTO typeDTO = getTypeDTOByType(type);
+		addNodesToModel(model, typeDTO, principal);
+	}
+
+	public void addNodesToModel(Model model, TypeDTO typeDTO, Principal principal) {
+		ArrayList<NodeDTO> nodes = getAllNodesByType(typeDTO, principal);
+		model.addAttribute("nodes", nodes);
+	}
+
+	@Override
+	public void addTypesToModel(Model model, Principal principal) {
+		model.addAttribute("types", typeService.getAllType(principal));
+	}
+
 	private NodeDTO nodeToNodeDAO(Node node) {
 		return new NodeDTO(node);
 	}
-	
+
 }

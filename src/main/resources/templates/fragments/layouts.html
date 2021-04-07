@@ -26,6 +26,9 @@
                         (typeName = ${type.typeName})}" class="nav-item nav-link"></a>
                     </div>
                     <div class="navbar-nav ml-auto">
+                        <div sec:authorize="isAuthenticated()">
+                            <a href="/admin" class="nav-item nav-link">Administration</a>
+                        </div>
                         <div sec:authorize="!isAuthenticated()">
                             <a href="#" class="nav-item nav-link">Register</a>
                         </div>

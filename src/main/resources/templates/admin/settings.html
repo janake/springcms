@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/layouts :: header">
+</head>
+<body>
+    <nav th:replace="fragments/layouts :: navbar">
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div>
+                </div>
+                <div class="col-md-11 col-lg-9 col-xl-8 form-group">
+                    <div th:if="${#httpServletRequest.requestURI} eq '/admin/settings/navbar'">
+                        <form th:action="@{/admin/settings/navbar/save}" th:object="${typeform}" method="post">
+
+                        Navigation bar
+
+                        <table class="table">
+                            <tbody>
+                            <tr th:each="typeDTO, itemStat: *{typeDTOs}">
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].id}"></td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].entityName}"></td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].typeName}"></td>
+                                <td th:text="*{typeDTOs[__${itemStat.index}__].createdBy.Id}"></td>
+                                <td>
+                                    <select th:field="*{typeDTOs[__${itemStat.index}__].visibility}">
+                                        <option th:each="state : ${T(org.prodet.repository.dao.Visibility).values()}"
+                                                th:value="${state}"
+                                                th:text="${state}">
+                                        </option>
+                                    </select>
+                                </td>
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].id}" />
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].entityName}" />
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].typeName}" />
+                                <input type="hidden" th:field="*{typeDTOs[__${itemStat.index}__].createdBy.Id}" />
+                            </tr>
+                            </tbody>
+                        </table>
+                            <input type="submit" text="Save"/>
+                        </form>
+                    </div>
+                    <span th:unless="${#httpServletRequest.requestURI} eq '/admin/settings/navbar'">
+                        <a href="/admin/settings/navbar" class="nav-item nav-link">Navigation bar settings</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <footer th:replace="fragments/layouts :: footer"></footer>
+    </div>
+    <table>
+        <tr th:each="var : ${#model}">
+            <td th:text="${var.key}"></td>
+            <td th:text="${var.value}"></td>
+        </tr>
+    </table>
+</body>
+</html>
