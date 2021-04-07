@@ -70,10 +70,18 @@ public class NodeService implements NodeServiceInterface {
 	public NodeDTO getNode(long id, Principal principal) throws EntityNotFoundException {
 		NodeDTO node = new NodeDTO();
 		try {
-			User user = userService.getUserFromPrincipal(principal);
-			Optional<Node> response = nodeRepository.findNodeById(id, user);
+			Optional<Node> response;
+
+			if (principal != null) {
+				User user = userService.getUserFromPrincipal(principal);
+				response = nodeRepository.findNodeById(id, user);
+			} else {
+				response = nodeRepository.findNodeById(id);
+			}
 			if (response.isPresent()) {
 				node = new NodeDTO(response.get());
+			} else {
+				throw new RuntimeException("Node not found.");
 			}
 		} catch (Exception e) {
 			throw new EntityNotFoundException(Node.class, id);

@@ -25,4 +25,7 @@ public interface NodeRepositoryInterface extends CrudRepository<Node, Long> {
     @Query("select n from Node n where (n.createdBy=:user and n.id=:id)")
     Optional<Node> findNodeById(@Param("id") long id, @Param("user") User user);
 
+    @Query("select n from Node n where (n.id=:id and n.visibility='Public')")
+    Optional<Node> findNodeById(@Param("id") long id);
+
 }
