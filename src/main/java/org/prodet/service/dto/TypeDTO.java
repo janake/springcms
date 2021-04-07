@@ -1,6 +1,10 @@
 package org.prodet.service.dto;
 
 import org.prodet.repository.dao.Type;
+import org.prodet.repository.dao.Visibility;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 public class TypeDTO {
 
@@ -10,14 +14,17 @@ public class TypeDTO {
 
     private String entityName;
 
+    private Visibility visibility;
+
     public TypeDTO() {
 
     }
 
-    public TypeDTO(long id, String typeName, String entityName) {
+    public TypeDTO(long id, String typeName, String entityName, Visibility visibility) {
         this.typeName = typeName;
         this.entityName = entityName;
         this.id = id;
+        this.visibility = visibility;
     }
 
     public TypeDTO(String typeName, String entityName) {
@@ -29,6 +36,7 @@ public class TypeDTO {
         this.entityName = type.getEntityName();
         this.id = type.getId();
         this.typeName = type.getTypeName();
+        this.visibility = type.getVisibility();
     }
 
     public long getId() {
@@ -54,5 +62,15 @@ public class TypeDTO {
     public void setEntityName(String entityName) {
         this.entityName = entityName;
     }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
+
+
 
 }

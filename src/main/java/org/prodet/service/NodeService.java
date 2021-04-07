@@ -16,9 +16,11 @@ import org.prodet.repository.repository.NodeRepositoryInterface;
 import org.prodet.repository.repository.UserRepositoryInterface;
 import org.prodet.service.dto.NodeDTO;
 import org.prodet.service.dto.TypeDTO;
+import org.prodet.service.dto.TypeListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class NodeService implements NodeServiceInterface {
@@ -119,9 +121,51 @@ public class NodeService implements NodeServiceInterface {
 		
 		return nodeList;
 	}
+
+	public void addNodeToModel(NodeDTO node, Model model) {
+		model.addAttribute("node", node);
+	}
+
+	 public void addNodeToModel(NodeDTO node, TypeDTO typeDTO, Model model) {
+		model.addAttribute("node", node);
+		addTypeToModel(model, typeDTO);
+	}
+
+	public TypeDTO getTypeDTOByType(String type) {
+		return typeService.getTypeByName(type);
+	}
+
+	@Override
+	public void addTypesToModel(TypeListDTO types, Model model) {
+		types.setTypeDTOs(typeService.getAllType());
+		model.addAttribute("typedtos", types);
+	}
+
+	public void addTypesToModel(Model model) {
+		model.addAttribute("types", typeService.getAllType());
+	}
+
+	public void addTypeToModel(Model model, String type) {
+		TypeDTO typeDTO = typeService.getTypeByName(type);
+		model.addAttribute("typeDTO", typeDTO);
+	}
+
+	public void addTypeToModel(Model model, TypeDTO typeDTO) {
+		model.addAttribute("typeDTO", typeDTO);
+	}
+
+	public void addNodesToModel(Model model, String type, Principal principal) {
+		TypeDTO typeDTO = getTypeDTOByType(type);
+		addNodesToModel(model, typeDTO, principal);
+	}
+
+	public void addNodesToModel(Model model, TypeDTO typeDTO, Principal principal) {
+		ArrayList<NodeDTO> nodes = getAllNodesByType(typeDTO, principal);
+		model.addAttribute("nodes", nodes);
+	}
 	
 	private NodeDTO nodeToNodeDAO(Node node) {
 		return new NodeDTO(node);
 	}
-	
+
 }
