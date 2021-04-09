@@ -41,6 +41,13 @@ public class AdminController {
 		return "admin/settings";
 	}
 
+	@RequestMapping(value="/add/navbar", method=RequestMethod.GET)
+	public String addNavigationItem(Model model, Principal principal) {
+		nodeService.addTypesToModel(model, principal);
+		model.addAttribute("newtype", new TypeDTO());
+		return "admin/settings";
+	}
+
 	@RequestMapping(value="/settings/navbar/save", method=RequestMethod.POST)
 	public String setNavigationConfig(@ModelAttribute TypeListDTO typeListDTO, Model model, Principal principal) {
 		List<TypeDTO> validTypeListDTOs = adminService.getValidTypeListDTOs(typeListDTO, principal);
@@ -49,4 +56,12 @@ public class AdminController {
 		nodeService.addTypesToModel(new TypeListDTO(), model, principal);
 		return "admin/settings";
 	}
+
+	@RequestMapping(value="/settings/navbar/add", method=RequestMethod.POST)
+	public String addItemToNavBar(@ModelAttribute TypeDTO typeDTO, Model model, Principal principal) {
+		typeService.save(typeDTO, principal);
+		nodeService.addTypesToModel(model, principal);
+		return "admin/settings";
+	}
+
 }
