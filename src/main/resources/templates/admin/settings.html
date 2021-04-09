@@ -40,8 +40,25 @@
                             <input type="submit" text="Save"/>
                         </form>
                     </div>
-                    <span th:unless="${#httpServletRequest.requestURI} eq '/admin/settings/navbar'">
+                    <div th:if="${#httpServletRequest.requestURI} eq '/admin/add/navbar'">
+                        <form th:action="@{/admin/settings/navbar/add}" th:object="${newtype}" method="post">
+                            <span>Add item to navigation bar</span>
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <label for="typeName">Name of the new type:</label>
+                                        <input id="typeName" type="text" th:field="*{typeName}" />
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <input type="submit" text="Save"/>
+                        </form>
+                    </div>
+                    <span th:if="${#httpServletRequest.requestURI} eq '/admin'">
                         <a href="/admin/settings/navbar" class="nav-item nav-link">Navigation bar settings</a>
+                        <a href="/admin/add/navbar" class="nav-item nav-link">Add nav menu item</a>
                     </span>
                 </div>
             </div>
