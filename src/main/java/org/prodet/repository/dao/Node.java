@@ -1,11 +1,13 @@
 package org.prodet.repository.dao;
 
+import org.prodet.service.NodeInterface;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
 @Entity
-public class Node {
+public class Node implements NodeInterface {
 	
 	@Id
 	@GeneratedValue

@@ -38,4 +38,6 @@ public interface NodeServiceInterface {
 	TypeDTO getTypeDTOByType(String type);
 
     void addTypesToModel(TypeListDTO types, Model model, Principal principal);
+
+    void isEditableByCurrentUser(Long id, Model model, User user);
 }

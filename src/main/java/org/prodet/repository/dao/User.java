@@ -17,7 +17,7 @@ import org.prodet.service.dto.UserDTO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-public class User {
+public class User implements UserInterface {
 	
 	@GeneratedValue
 	@Id
@@ -81,7 +81,8 @@ public class User {
 		this.id = createdBy.getId();
 	}
 
-    public long getId() {
+    @Override
+	public long getId() {
 		return id;
 	}
 
@@ -89,6 +90,7 @@ public class User {
 		this.id = id;
 	}
 
+	@Override
 	public String getUserName() {
 		return userName;
 	}
@@ -97,6 +99,7 @@ public class User {
 		this.userName = userName;
 	}
 
+	@Override
 	public String getEmail() {
 		return email;
 	}
@@ -114,6 +117,7 @@ public class User {
 		this.passwd = encoder.encode(passwd);
 	}
 
+	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -122,6 +126,7 @@ public class User {
 		this.firstName = firstName;
 	}
 
+	@Override
 	public String getLastName() {
 		return lastName;
 	}
@@ -130,6 +135,7 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	@Override
 	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
@@ -146,10 +152,11 @@ public class User {
 		this.status = status;
 	}
 
+	@Override
 	public List<Role> getRoles() {
 		return roles;
 	}
-	
+
 	public String[] getRolesName() {
 		String[] roleNames = getNamesFromRoles();
 		return roleNames;

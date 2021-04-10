@@ -71,10 +71,12 @@ public class NodeController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getNode(@PathVariable Long id, Model model, Principal principal) throws EntityNotFoundException {
 		NodeDTO node = nodeService.getNode(id, principal);
+		User user = userService.getUserFromPrincipal(principal);
 		nodeService.addNodeToModel(node, model);
 		nodeService.addNodesToModel(model, node.getType(), principal);
 		nodeService.addTypesToModel(model, principal);
 		nodeService.addTypeToModel(model, node.getType());
+		nodeService.isEditableByCurrentUser(id, model, user);
 		return "node";
 	}
 
@@ -87,8 +89,12 @@ public class NodeController {
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-	public String setNode(@PathVariable Long id, Model model, Principal principal) throws EntityNotFoundException {
+	public String setNode(@PathVariable Long id, Model model, Principal principal) throws EntityNotFoundException, IllegalAccessException {
+		User user = userService.getUserFromPrincipal(principal);
 		NodeDTO node = nodeService.getNode(id, principal);
+		if (node.getCreatedBy().getId() != user.getId()) {
+			throw new IllegalAccessException("You do not have rights to edit this node.");
+		}
 		nodeService.addNodeToModel(node, model);
 		nodeService.addTypeToModel(model, node.getType());
 		nodeService.addNodesToModel(model, node.getType(), principal);

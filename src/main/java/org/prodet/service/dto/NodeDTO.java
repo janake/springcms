@@ -2,11 +2,12 @@ package org.prodet.service.dto;
 
 import org.prodet.repository.dao.Node;
 import org.prodet.repository.dao.Visibility;
+import org.prodet.service.NodeInterface;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class NodeDTO {
+public class NodeDTO implements NodeInterface {
 	
 	@NotNull
     @Size(min=3, max=200)
@@ -39,6 +40,7 @@ public class NodeDTO {
 		return this;
 	}
 
+	@Override
 	public String getTitle() {
 		return title;
 	}
@@ -47,6 +49,7 @@ public class NodeDTO {
 		this.title = title;
 	}
 
+	@Override
 	public String getBody() {
 		return body;
 	}
@@ -55,6 +58,7 @@ public class NodeDTO {
 		this.body = body;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -67,6 +71,7 @@ public class NodeDTO {
 		this.createdBy = user;
 	}
 	
+	@Override
 	public UserDTO getCreatedBy() {
 		return this.createdBy;
 	}
@@ -79,6 +84,7 @@ public class NodeDTO {
 		return type;
 	}
 
+	@Override
 	public Visibility getVisibility() {
 		return visibility;
 	}

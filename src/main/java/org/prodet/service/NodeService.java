@@ -169,4 +169,14 @@ public class NodeService implements NodeServiceInterface {
 		return new NodeDTO(node);
 	}
 
+	@Override
+	public void isEditableByCurrentUser(Long id, Model model, User user) {
+		if (user != null) {
+			model.addAttribute("editableByCurrentUser",
+					user.getId() == ((NodeInterface)(model.getAttribute("node"))).getCreatedBy().getId());
+		} else {
+			model.addAttribute("editableByCurrentUser", false);
+		}
+	}
+
 }

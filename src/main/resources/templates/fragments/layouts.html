@@ -45,7 +45,7 @@
         </nav>
         <ul  th:fragment = "menu" class="vertical-nav navbar-nav mr-auto flex-column w3-light-grey">
             <li class="sidebar-brand"><h2>Notes</h2></li>
-            <li class="nav-item">
+            <li sec:authorize="isAuthenticated()" class="nav-item">
                 <p><a th:href="@{/node/{typeName}/new(typeName = ${typeDTO.typeName})}" class="btn btn-success">Create new node</a></p>
             </li>
             <li class="nav-item" th:each="node: ${nodes}">

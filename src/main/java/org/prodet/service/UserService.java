@@ -21,11 +21,14 @@ public class UserService {
 	}
 
 	public User getUserFromPrincipal(Principal principal) {
-		String userName = ((CustomUserDetails)(((UsernamePasswordAuthenticationToken) principal)
-				.getPrincipal()))
-				.getUsername();
-		User user = userRepo.findByuserNameOrEmail(userName);
-		return user;
+		if (principal != null ) {
+			String userName = ((CustomUserDetails)(((UsernamePasswordAuthenticationToken) principal)
+					.getPrincipal()))
+					.getUsername();
+			User user = userRepo.findByuserNameOrEmail(userName);
+			return user;
+		}
+		return null;
 	}
 
 }

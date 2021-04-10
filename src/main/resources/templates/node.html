@@ -9,10 +9,7 @@
     <div class="row">
         <div th:replace="fragments/layouts :: menu">
         </div>
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <span>SHOW</span>
-            </li>
+        <ul th:if="${editableByCurrentUser}" class="nav nav-tabs">
             <li class="nav-item">
                 <a th:href="@{/node/{id}/edit(id = ${node.id})}">EDIT</a>
             </li>

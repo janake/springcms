@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.prodet.repository.dao.Role;
 import org.prodet.repository.dao.User;
+import org.prodet.repository.dao.UserInterface;
 
-public class UserDTO {
+public class UserDTO implements UserInterface {
 	
 	private long id;
 	
