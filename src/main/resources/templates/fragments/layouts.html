@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/js/ckeditor.js}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.1/build/styles/dracula.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.1/build/styles/atom-one-light.min.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.1/build/highlight.min.js"></script>
 </head>
     <body>
@@ -43,16 +43,13 @@
                 </div>
             </div>
         </nav>
-        <ul  th:fragment = "menu" class="vertical-nav navbar-nav mr-auto flex-column w3-light-grey">
-            <li class="sidebar-brand"><h2>Notes</h2></li>
-            <li sec:authorize="isAuthenticated()" class="nav-item">
-                <p><a th:href="@{/node/{typeName}/new(typeName = ${typeDTO.typeName})}" class="btn btn-success">Create new node</a></p>
+        <ul  th:fragment = "menu" class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Notes</h2></li>
+            <li sec:authorize="isAuthenticated()" class="list-group-item list-group-item-primary list-group-item-action">
+                <a th:href="@{/node/{typeName}/new(typeName = ${typeDTO.typeName})}" class="btn btn-sm">Create new node</a>
             </li>
-            <li class="nav-item" th:each="node: ${nodes}">
-                <a th:text="${node.title}" th:href="@{/node/{id}(id = ${node.id})}"></a>
-            </li>
-            <li class="nav-item">
-
+            <li class="list-group-item list-group-item-light list-group-item-action" th:each="node: ${nodes}">
+                <a th:text="${node.title}" th:href="@{/node/{id}(id = ${node.id})}" class="text-secondary btn btn-sm"></a>
             </li>
         </ul>
         <div th:fragment = "main-content" class="col-md-11 col-lg-9 col-xl-8">
