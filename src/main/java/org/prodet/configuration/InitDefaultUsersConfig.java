@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-
-
 @Configuration
 public class InitDefaultUsersConfig {
 
@@ -32,7 +30,7 @@ public class InitDefaultUsersConfig {
             return;
         }
 
-        ArrayList<Role> janakeRoles = new ArrayList<Role>();
+        ArrayList<Role> userRoles = new ArrayList<Role>();
         ArrayList<Role> adminRoles = new ArrayList<Role>();
 
         roleRepository.save(new Role(1L, "admin"));
@@ -46,7 +44,7 @@ public class InitDefaultUsersConfig {
         }
         if (userRole.isPresent()) {
             adminRoles.add(userRole.get());
-            janakeRoles.add(userRole.get());
+            userRoles.add(userRole.get());
         }
 
         User admin = new User("admin", "admin@example.com",
@@ -54,25 +52,18 @@ public class InitDefaultUsersConfig {
         userRepository.save(admin);
 
         if (userRole.isPresent()) {
-            janakeRoles.add(userRole.get());
+            userRoles.add(userRole.get());
         }
 
-        User janake = new User("janake", "janak.endre@gmail.com",
-                "pwd", "", "", true, janakeRoles);
+        User testUser = new User("testUser", "testuser@testmail.test",
+                "pwd", "", "", true, userRoles);
 
-        userRepository.save(janake);
-
-
-        User latkoor = new User("latkoor", "latkocki@gmail.com",
-                "telebanka", "", "", true, janakeRoles);
-
-        userRepository.save(latkoor);
+        userRepository.save(testUser);
 
         types.entrySet().stream().forEach((e) -> {
             typeRepository.save(
-                    new Type(e.getKey(), e.getValue(), janake)
+                    new Type(e.getKey(), e.getValue(), testUser)
             );
         });
     }
 }
-
